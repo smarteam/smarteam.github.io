@@ -1,0 +1,1778 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Serbia NIS2 + ZIB 2025 Compliance Check</title>
+<link rel="canonical" href="https://nis2.rs">
+<!-- Favicon -->
+<link rel="icon" href="https://nis2.rs/favicon.svg" type="image/svg+xml" sizes="any">
+<link rel="icon" href="https://nis2.rs/favicon.png" type="image/png" sizes="32x32">
+<link rel="icon" href="https://nis2.rs/favicon-120.png" type="image/png" sizes="120x120">
+<link rel="shortcut icon" href="https://nis2.rs/favicon.ico" type="image/x-icon">
+<meta name="description" content="Interactive self-assessment tool for Serbia&#39;s compliance with NIS2 Directive and ZIB 2025 (new Information Security Law). Check if your organization qualifies as Priority or Important operator.">
+<meta name="keywords" content="ZIB 2025, NIS2 Serbia, cybersecurity compliance, закон об информационной безопасности Сербия, Zakon o informacionoj bezbednosti, priority operator, important operator, сајбер безбедност Србија">
+<meta name="author" content="Serbia NIS2 + ZIB 2025 Compliance Check Project">
+<!-- Open Graph -->
+<meta property="og:title" content="Serbia NIS2 + ZIB 2025 Compliance Check">
+<meta property="og:description" content="Check if your organization falls under Serbia&#39;s NIS2 transposition (ZIB 2025). Free, no registration, one page.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://nis2.rs">
+<meta property="og:image" content="https://nis2.rs/og-image.png?2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="sr_RS">
+<link rel="alternate" hreflang="sr" href="https://nis2.rs" />
+<link rel="alternate" hreflang="sr-Cyrl-RS" href="https://nis2.rs/?lang=sr-c" />
+<link rel="alternate" hreflang="ru" href="https://nis2.rs/?lang=ru" />
+<link rel="alternate" hreflang="en" href="https://nis2.rs/?lang=en" />
+<link rel="alternate" hreflang="x-default" href="https://nis2.rs" />
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Serbia NIS2 + ZIB 2025 Compliance Check">
+<meta name="twitter:description" content="Free self-assessment tool for Serbia&#39;s NIS2 / ZIB 2025 cybersecurity compliance.">
+<meta name="twitter:image" content="https://nis2.rs/og-image.png?2">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Serbia NIS2 + ZIB 2025 Compliance Check",
+  "alternateName": ["Samoprocena obaveza prema ZIB 2025 (NIS2)", "Самооценка обязательств по ZIB 2025 (NIS2)"],
+  "description": "Interactive self-assessment tool for Serbia's compliance with NIS2 Directive and ZIB 2025. Check if your organization qualifies as Priority or Important operator.",
+  "url": "https://nis2.rs",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript",
+  "inLanguage": ["sr", "ru", "en"],
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Serbia NIS2 + ZIB 2025 Compliance Check Project",
+    "url": "https://nis2.rs"
+  },
+  "sameAs": ["https://github.com/smarteam/smarteam.github.io"]
+}
+</script>
+<style>
+  :root {
+    --bg: #0f0f1a;
+    --card: #1a1a2e;
+    --card-hover: #222240;
+    --accent: #ff6b35;
+    --accent-dim: #cc5529;
+    --text: #e0e0e0;
+    --text-dim: #8888aa;
+    --border: #2a2a44;
+    --priority: #ff4444;
+    --important: #ffaa00;
+    --none: #44aa44;
+    --radius: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .container { max-width: 1024px; width: 100%; padding: 24px; }
+  .lang-bar {
+    display: flex; justify-content: flex-end; gap: 8px; padding: 16px 24px 0;
+    max-width: 1024px; width: 100%;
+  }
+  .lang-btn {
+    background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 4px 12px; border-radius: 6px; cursor: pointer; font-size: 13px;
+    transition: all .2s;
+  }
+  .lang-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .lang-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.1); }
+
+  /* Header */
+  .header { text-align: center; padding: 40px 0 24px; }
+  .header .badge {
+    display: inline-block; background: rgba(255,68,68,0.12); color: var(--priority);
+    padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.5px; margin-bottom: 12px;
+  }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .header p { color: var(--text-dim); font-size: 15px; line-height: 1.5; min-height: 45px; }
+
+  /* Card */
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 32px; margin-bottom: 16px; transition: all .3s;
+  }
+  .card.step { display: none; }
+  .card.step.active { display: block; }
+
+  /* Questions */
+  .step-num {
+    font-size: 12px; color: var(--text-dim); text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 8px;
+  }
+  .step-title { font-size: 20px; font-weight: 600; margin-bottom: 20px; line-height: 1.4; }
+
+  .option {
+    display: block; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 18px; margin-bottom: 8px; cursor: pointer;
+    transition: all .2s; font-size: 15px; line-height: 1.4;
+  }
+  .option:hover { background: var(--card-hover); border-color: var(--accent-dim); }
+  .option.selected { background: rgba(255,107,53,0.1); border-color: var(--accent); }
+  .option input { display: none; }
+
+  /* Buttons */
+  .btn-row { display: flex; gap: 12px; margin-top: 24px; }
+  .btn {
+    padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer;
+    font-size: 15px; font-weight: 500; transition: all .2s;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent-dim); transform: translateY(-1px); }
+  .btn-secondary { background: var(--border); color: var(--text); }
+  .btn-secondary:hover { background: #333355; }
+  .btn:disabled { opacity: 0.35; cursor: default; transform: none; }
+
+  /* Result */
+  .result-icon { font-size: 48px; text-align: center; margin-bottom: 16px; }
+  .result-badge {
+    display: inline-block; padding: 6px 16px; border-radius: 20px;
+    font-weight: 700; font-size: 14px; letter-spacing: 0.5px; margin-bottom: 16px;
+  }
+  .result-badge.priority { background: rgba(255,68,68,0.15); color: var(--priority); }
+  .result-badge.important { background: rgba(255,170,0,0.15); color: var(--important); }
+  .result-badge.none { background: rgba(68,170,68,0.15); color: var(--none); }
+
+  .checklist { margin-top: 16px; }
+  .checklist-item {
+    display: flex; align-items: flex-start; gap: 12px; padding: 10px 0;
+    border-bottom: 1px solid var(--border); font-size: 14px; line-height: 1.5;
+  }
+  .checklist-item:last-child { border: none; }
+  .checklist-item .icon { flex-shrink: 0; font-size: 16px; margin-top: 2px; }
+  .checklist-item a { display: inline-block; margin-top: 2px; padding-left: 4px; font-weight: 500; }
+
+  .deadline-box {
+    background: rgba(255,107,53,0.08); border: 1px solid rgba(255,107,53,0.2);
+    border-radius: 8px; padding: 16px; margin-top: 20px; font-size: 14px; line-height: 1.6;
+  }
+  .deadline-box strong { color: var(--accent); }
+
+  /* Disclaimer */
+  .disclaimer {
+    text-align: center; color: var(--text-dim); font-size: 12px;
+    padding: 24px 0 40px; line-height: 1.6; max-width: 520px; margin: 0 auto;
+    min-height: 180px;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    display: flex; justify-content: center; gap: 8px; margin-bottom: 32px;
+  }
+  .progress-dot {
+    width: 10px; height: 10px; border-radius: 50%; background: var(--border);
+    transition: all .3s;
+  }
+  .progress-dot.active { background: var(--accent); box-shadow: 0 0 8px rgba(255,107,53,0.5); }
+  .progress-dot.done { background: var(--accent-dim); }
+
+  /* Footer */
+  .footer {
+    text-align: center; color: var(--text-dim); font-size: 12px;
+    padding: 20px 0; border-top: 1px solid var(--border); margin-top: 20px;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  /* Tab navigation */
+  .tab-bar {
+    display: flex; justify-content: center; gap: 8px;
+    padding: 0 0 24px; flex-wrap: wrap;
+  }
+  .tab-btn {
+    background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+    padding: 8px 20px; border-radius: 20px; cursor: pointer; font-size: 14px;
+    transition: all .2s; font-weight: 500;
+  }
+  .tab-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .tab-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(255,107,53,0.1); }
+  .tab-content { display: block; }
+  .tab-content.hidden { display: none; }
+
+  /* Resources */
+  .res-section {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 24px; margin-bottom: 16px;
+  }
+  .res-section h3 {
+    font-size: 16px; font-weight: 600; margin-bottom: 8px; color: var(--accent);
+    padding-bottom: 8px; border-bottom: 1px solid var(--border);
+  }
+  .res-section ul { list-style: none; padding: 0; margin: 0; }
+  .res-section li {
+    padding: 6px 0; font-size: 14px; line-height: 1.5;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .res-section li:last-child { border: none; }
+  .res-section a { color: var(--text); text-decoration: none; transition: color .2s; }
+  .res-section a:hover { color: var(--accent); }
+  .res-section .link-url { color: var(--text-dim); font-size: 12px; display: block; word-break: break-all; }
+
+  /* FAQ */
+  .faq-item {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    margin-bottom: 8px; overflow: hidden;
+  }
+  .faq-q {
+    padding: 16px 20px; cursor: pointer; font-size: 15px; font-weight: 500;
+    position: relative; transition: background .2s; user-select: none;
+  }
+  .faq-q:hover { background: var(--card-hover); }
+  .faq-q::after {
+    content: '+'; position: absolute; right: 20px; top: 50%;
+    transform: translateY(-50%); font-size: 18px; color: var(--accent);
+    transition: transform .2s;
+  }
+  .faq-q.open::after { content: '−'; }
+  .faq-a {
+    display: none; padding: 0 20px 16px; font-size: 14px; line-height: 1.7;
+    color: var(--text-dim);
+  }
+  .faq-a.open { display: block; }
+  .faq-a a { color: var(--accent); text-decoration: none; }
+  .faq-a a:hover { text-decoration: underline; }
+
+  @media (max-width: 480px) {
+    .container { padding: 12px; }
+    .card { padding: 20px; }
+    .header h1 { font-size: 22px; }
+    .step-title { font-size: 17px; }
+    .tab-btn { font-size: 12px; padding: 6px 12px; }
+  }
+
+  /* Print styles */
+  @media print {
+    body { background: #fff; color: #000; }
+    .lang-bar, .btn-row, .progress-bar, .footer, .header .badge, .header p, .disclaimer { display: none !important; }
+    .card { background: #fff; border: 1px solid #ccc; break-inside: avoid; padding: 16px; }
+    .step-title, h1, h2, h3 { color: #000; }
+    .deadline-box { border: 1px solid #999 !important; background: #f5f5f5 !important; }
+    .checklist-item { border-color: #ddd; }
+    .result-badge.priority { background: #ffe0e0 !important; color: #c00 !important; }
+    .result-badge.important { background: #fff3d0 !important; color: #c80 !important; }
+    .print-btn { display: none !important; }
+    a { color: #00c !important; text-decoration: underline; }
+  }
+</style>
+</head>
+<body>
+
+<div class="lang-bar">
+  <button class="lang-btn active" data-lang="sr" onclick="setLang('sr')">🇷🇸 Srpski</button>
+  <button class="lang-btn" data-lang="sr-c" onclick="setLang('sr-c')">🇷🇸 Српски</button>
+  <button class="lang-btn" data-lang="ru" onclick="setLang('ru')">🇷🇺 Русский</button>
+  <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧 English</button>
+</div>
+
+<div class="container" id="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="badge" data-i18n="badge">ZAKON O INFORMACIONOJ BEZBEDNOSTI</div>
+    <h1 data-i18n="title">Samoprocena obaveza<br>prema ZIB 2025 (NIS2)</h1>
+    <p data-i18n="subtitle">Proverite da li vaša organizacija podleže novom Zakonu o informacionoj bezbednosti, koja ste kategorija i šta treba da preduzmete.</p>
+  </div>
+
+  <!-- Tab Navigation -->
+  <div class="tab-bar">
+    <button class="tab-btn active" data-tab="tool" onclick="setTab('tool')" data-i18n="tab_tool">Samoprocena</button>
+    <button class="tab-btn" data-tab="resources" onclick="setTab('resources')" data-i18n="tab_resources">Resursi</button>
+    <button class="tab-btn" data-tab="faq" onclick="setTab('faq')" data-i18n="tab_faq">FAQ</button>
+  </div>
+
+  <!-- TAB: Tool -->
+  <div class="tab-content" id="tab-tool">
+  <!-- PROGRESS -->
+  <div class="progress-bar" id="progress-bar"></div>
+
+  <!-- STEPS -->
+  <div id="steps-container">
+
+    <!-- STEP 0: Welcome -->
+    <div class="card step active" data-step="0">
+      <div style="text-align:center;padding:8px 0">
+        <p data-i18n="welcome_text" style="color:var(--text-dim);margin-bottom:16px;line-height:1.6;min-height:80px">
+          Novi Zakon o informacionoj bezbednosti (ZIB 2025) stupio je na snagu 31. oktobra 2025. godine<br><br>
+          Ovaj alat pomaže da utvrdite:<br>
+          • Da li vaša organizacija podleže zakonu<br>
+          • Koju kategoriju imate (Priority ili Important)<br>
+          • Koje su vaše obaveze i rokovi
+        </p>
+        <div style="margin-top:24px">
+          <button class="btn btn-primary" onclick="goStep(1)" data-i18n="start_btn" style="font-size:17px;padding:14px 36px">Započni procenu →</button>
+        </div>
+        <p style="color:var(--text-dim);font-size:12px;margin-top:20px" data-i18n="take_3min">Traje oko 3 minuta. Bez registracije.</p>
+      </div>
+    </div>
+
+    <!-- STEP 1: Sector -->
+    <div class="card step" data-step="1">
+      <div class="step-num" data-i18n="step_1of">KORAK 1/4</div>
+      <div class="step-title" data-i18n="q_sector">Kojem sektoru pripada vaša organizacija?</div>
+      <div id="q-sector"></div>
+    </div>
+
+    <!-- STEP 2: Size -->
+    <div class="card step" data-step="2">
+      <div class="step-num" data-i18n="step_2of">KORAK 2/4</div>
+      <div class="step-title" data-i18n="q_size">Koliko zaposlenih ima vaša organizacija?</div>
+      <div id="q-size"></div>
+    </div>
+
+    <!-- STEP 3: ICT Dependency -->
+    <div class="card step" data-step="3">
+      <div class="step-num" data-i18n="step_3of">KORAK 3/4</div>
+      <div class="step-title" data-i18n="q_impact">Da li bi prekid vaših ICT sistema mogao da izazove značajan uticaj na javnu bezbednost, nacionalnu bezbednost ili javno zdravlje?</div>
+      <div id="q-impact"></div>
+    </div>
+
+    <!-- STEP 4: Cloud/ICT Services -->
+    <div class="card step" data-step="4">
+      <div class="step-num" data-i18n="step_4of">KORAK 4/4</div>
+      <div class="step-title" data-i18n="q_cloud">Da li koristite cloud usluge, eksterne ICT provajdere ili upravljate ICT sistemima za druge organizacije?</div>
+      <div id="q-cloud"></div>
+    </div>
+
+    <!-- RESULT -->
+    <div class="card step" data-step="result">
+      <div id="result-content"></div>
+      <div class="btn-row" style="justify-content:center">
+        <button class="btn btn-secondary print-btn" onclick="window.print()" data-i18n="print_btn"></button>
+        <button class="btn btn-secondary" onclick="resetQuiz()" data-i18n="restart_btn">Proveri ponovo</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="disclaimer" data-i18n="disclaimer">
+    Ova samoprocena služi samo u informativne svrhe i ne predstavlja pravni savet. Za detaljnu analizu obaveza vaše organizacije, konsultujte se sa advokatom ili licenciranim konsultantom za informacionu bezbednost.
+  </div>
+
+  <div class="footer">
+    <a href="https://github.com/smarteam/smarteam.github.io" target="_blank" rel="noopener">
+      <span data-i18n="footer_github">Pogledaj na GitHub-u</span>
+    </a>
+    <span id="stars-badge" style="margin-left:4px"></span>
+    &nbsp;·&nbsp;
+    <span data-i18n="footer_mit">Ovo delo je licencirano pod <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.sr-latn" target="_blank" rel="noopener">CC BY-SA 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em"></span>
+  </div>
+</div>
+
+<!-- TAB: Resources -->
+<div class="tab-content hidden" id="tab-resources">
+
+  <div class="res-section" id="res-law">
+    <h3 data-i18n="res_law_title">Zakon i podzakonska akta</h3>
+    <ul>
+      <li>
+        <a href="https://www.pravno-informacioni-sistem.rs/eli/rep/sgrs/skupstina/zakon/2025/91/5/reg" target="_blank" rel="noopener">
+          <span data-i18n="res_law_pis">ZIB 2025 — pun tekst zakona</span> ↗
+        </a>
+        <span class="link-url">pravno-informacioni-sistem.rs</span>
+      </li>
+      <li>
+        <a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" rel="noopener">
+          <span data-i18n="res_law_ratel">RATEL — podzakonski akti</span> ↗
+        </a>
+        <span class="link-url">ratel.rs</span>
+      </li>
+      <li>
+        <a href="https://www.ratel.rs/sr/blog-posts-view-all/model-akta-o-bezbednosti-ikt-sistema-1" target="_blank" rel="noopener">
+          <span data-i18n="res_law_model">Model akta bezbednosti ICT sistema</span> ↗
+        </a>
+        <span class="link-url">ratel.rs</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="res-section" id="res-reg">
+    <h3 data-i18n="res_reg_title">Registracija operatora</h3>
+    <ul>
+      <li>
+        <a href="https://mit.gov.rs/tekst/sr/180/upis-u-evidenciju-operatora-ikt-sistema-od-posebnog-znacaja.php" target="_blank" rel="noopener">
+          <span data-i18n="res_reg_mit">MIT — portal za registraciju operatora</span> ↗
+        </a>
+        <span class="link-url">mit.gov.rs</span>
+      </li>
+      <li>
+        <a href="https://mit.gov.rs/tekst/sr/702/sektor-za-informaciono-drustvo-i-informacionu-bezbednost.php" target="_blank" rel="noopener">
+          <span data-i18n="res_reg_checklist">MIT — kontrolne liste i izveštaji</span> ↗
+        </a>
+        <span class="link-url">mit.gov.rs</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="res-section" id="res-sec">
+    <h3 data-i18n="res_sec_title">Mere bezbednosti</h3>
+    <ul>
+      <li>
+        <a href="https://www.ratel.rs/sr/strategije-studije-i-smernice-iz-oblasti-informacione-bezbednosti" target="_blank" rel="noopener">
+          <span data-i18n="res_sec_guidelines">RATEL — smernice za IKT bezbednost</span> ↗
+        </a>
+        <span class="link-url">ratel.rs</span>
+      </li>
+      <li>
+        <a href="https://www.ratel.rs/storage/upload/2024/09/Uredba%20-%20Mere%20zastite%20IKT%20sistema%20od%20posebnog%20znacaja%20(2).pdf" target="_blank" rel="noopener">
+          <span data-i18n="res_sec_measures">28 mera zaštite — Uredba o merama zaštite IKT sistema</span> ↗
+        </a>
+        <span class="link-url">ratel.rs — Sl. glasnik RS 94/19 (PDF, 4.7 MB)</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="res-section" id="res-dp">
+    <h3 data-i18n="res_dp_title">Zaštita podataka o ličnosti / GDPR</h3>
+    <ul>
+      <li>
+        <a href="https://www.poverenik.rs" target="_blank" rel="noopener">
+          <span data-i18n="res_dp_poverenik">Poverenik za informacije od javnog značaja i zaštitu podataka o ličnosti</span> ↗
+        </a>
+        <span class="link-url">poverenik.rs</span>
+      </li>
+      <li>
+        <a href="https://www.paragraf.rs/propisi/zakon-o-zastiti-podataka-o-licnosti.html" target="_blank" rel="noopener">
+          <span data-i18n="res_dp_law">Zakon o zaštiti podataka o ličnosti (ZS1/2018)</span> ↗
+        </a>
+        <span class="link-url">paragraf.rs — Sl. glasnik RS 87/2018</span>
+      </li>
+      <li>
+        <a href="https://www.ats.rs" target="_blank" rel="noopener">
+          <span data-i18n="res_dp_ats">ATS — Akreditaciono telo Srbije (ISO 27001 sertifikacija)</span> ↗
+        </a>
+        <span class="link-url">ats.rs</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="res-section" id="res-sectoral">
+    <h3 data-i18n="res_sectoral_title">Sektorski propisi — klasifikacija po ZIB 2025</h3>
+    <p style="color:var(--text-dim);font-size:13px;margin-bottom:12px;line-height:1.5" data-i18n="res_sectoral_intro">ZIB 2025 (član 5) deli operatore na PRIORITETNE i VAŽNE u zavisnosti od sektora. Ispod su nadležni organi i postojeći propisi po sektorima:</p>
+
+    <!-- NIS2 ↔ ZIB sektor mapping -->
+    <div style="background:rgba(255,107,53,0.04);border:1px solid rgba(255,107,53,0.12);border-radius:8px;padding:12px 14px;margin:0 0 14px;font-size:12px;line-height:1.6">
+      <strong>🔗 NIS2 ↔ ZIB 2025 mapiranje sektora:</strong><br>
+      ZIB 2025 pokriva iste sektore kao EU NIS2 direktiva (Aneks I i II), uz prilagođenu podelu na PRIORITETNE (Essential) i VAŽNE (Important):<br>
+      <span style="color:var(--priority)">🔴 PRIORITETNI</span> = NIS2 Essential: energetika, saobraćaj, bankarstvo, finansijske infrastrukture, zdravstvo, voda, digitalna infrastruktura, ICT usluge, državna uprava, svemir<br>
+      <span style="color:var(--important)">🟠 VAŽNI</span> = NIS2 Important: pošta, upravljanje otpadom, hemikalije, hrana, proizvodnja, digitalni provajderi (pretraživači, društvene mreže, marketplace)
+    </div>
+
+    <h4 style="color:var(--accent);font-size:14px;font-weight:600;margin:16px 0 8px">📜 Opšti podzakonski akti (primenjuju se na sve sektore)</h4>
+    <div style="background:rgba(255,107,53,0.06);border-left:3px solid var(--accent);padding:10px 14px;margin:0 0 12px;font-size:13px;line-height:1.8" id="res-opsti-akti">
+      <strong>Uredbe:</strong><br>
+      • <a href="https://www.ratel.rs/storage/upload/2024/09/Uredba%20o%20utvr%C4%91ivanju%20Liste%20delatnosti%20u%20oblastima%20u%20kojima%20se%20obavljaju%20delatnosti%20od%20op%C5%A1teg%20interesa%20i%20u%20kojima%20se%20koriste%20informaciono-komunikacioni%20sistemi%20od%20posebnog%20zna%C4%8Daja.pdf" target="_blank" rel="noopener">Uredba o Listi delatnosti</a> — SG 94/2019<br>
+      • <a href="https://www.paragraf.rs/propisi/uredba-o-bli%C5%BEem-sadr%C5%BEaju-akta-o-bezbednosti-ikt-sistema-od-posebnog-zna%C4%8Daja.html" target="_blank" rel="noopener">Uredba o bližem sadržaju akta o bezbednosti IKT sistema</a> — SG 94/2016<br>
+      • <a href="https://www.paragraf.rs/propisi/uredba-o-uredjenju-mera-zastite-informaciono-komunikacionih-sistema-od-posebnog-znacaja.html" target="_blank" rel="noopener">Uredba o bližem uređenju mera zaštite IKT sistema</a> — SG 94/2016<br>
+      • <a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" rel="noopener">Uredba o postupku obaveštavanja o incidentima</a> — SG 11/2020<br>
+      • <a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" rel="noopener">Uredba o bezbednosti dece pri korišćenju IKT</a> — SG 13/2020<br>
+      <strong>Pravilnici:</strong><br>
+      • <a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" rel="noopener">Pravilnik o evidenciji operatora IKT sistema</a> — SG 9/2020<br>
+      • <a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" rel="noopener">Pravilnik o statističkim podacima o incidentima</a> — SG 76/2020<br>
+      • <a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" rel="noopener">Pravilnik o evidenciji posebnih centara (CERT)</a> — SG 37/2020<br>
+      <strong>Drugo:</strong><br>
+      • <a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" rel="noopener">Odluka o obrazovanju Tela za koordinaciju IB</a> — SG 8/2020
+    </div>
+
+    <h4 style="color:var(--priority);font-size:14px;font-weight:600;margin:16px 0 8px" data-i18n="res_sectoral_priority_title">🔴 PRIORITETNI IKT sistemi (essential)</h4>
+    <ul>
+      <li>
+        <strong>Bankarstvo / Finansije</strong> — NBS propisi (obavezuju sve finansijske institucije: banke, osiguranje, penzijske fondove, lizing, platne institucije):
+        <a href="https://www.nbs.rs/export/sites/NBS_site/documents/propisi/propisi-sis/min_standardi_upravljanja_IT_sistemom_2026.pdf" target="_blank" rel="noopener">Minimalni standardi upravljanja IKT sistemom</a> (SG 23/2013–88/2019, novi 2026),
+        <a href="https://www.paragraf.rs/propisi/odluka-o-minimalnim-standardima-upravljanja-ikt-sistemom-finansijske-institucije-2024.html" target="_blank" rel="noopener">Odluka o minimalnim standardima upravljanja IKT sistemom</a> (SG 102/2024),
+        <a href="https://www.nbs.rs/export/sites/NBS_site/documents/propisi/propisi-sis/poveravanje_aktivnosti.pdf" target="_blank" rel="noopener">Poveravanje aktivnosti trećim licima</a>,
+        <a href="https://www.nbs.rs/export/sites/NBS_site/documents/propisi/propisi-ps/tehnicki_standardi_autentifikacije.pdf" target="_blank" rel="noopener">Tehnički standardi autentifikacije</a>,
+        <a href="https://www.nbs.rs/export/sites/NBS_site/documents/propisi/propisi-di/Odluka_Upravljanje_IKT_Virtuelne_Valute.pdf" target="_blank" rel="noopener">IKT standardi za virtuelne valute</a>
+        <span class="link-url">nbs.rs — direktni PDF linkovi</span>
+      </li>
+      <li>
+        <strong>Energetika (nafta, gas, elektro, toplane, vodonik)</strong> —
+        <a href="https://www.aers.rs" target="_blank" rel="noopener">AERS</a> (regulator),
+        <a href="https://www.mre.gov.rs" target="_blank" rel="noopener">MEM — Ministarstvo energetike</a>,
+        <a href="https://www.paragraf.rs/propisi/zakon_o_energetici.html" target="_blank" rel="noopener">Zakon o energetici</a>,
+        <a href="https://www.mre.gov.rs/extfile/sector/sr/103/05/Uredba+o+spremnosti+na+rizike+u+elektroenergetskom+sektoru.pdf" target="_blank" rel="noopener">Uredba o spremnosti na rizike u elektroenergetici</a>,
+        <a href="https://www.energy-community.org" target="_blank" rel="noopener">Energy Community — cybersecurity framework</a>
+        <span class="link-url">aers.rs · mre.gov.rs</span>
+      </li>
+      <li>
+        <strong>Saobraćaj (železnički, vazdušni, vodni, drumski)</strong> —
+        <a href="https://www.mgsi.gov.rs" target="_blank" rel="noopener">MGSI</a>,
+        <a href="https://raildir.gov.rs" target="_blank" rel="noopener">Direkcija za železnice</a>,
+        <a href="https://www.cadin.rs" target="_blank" rel="noopener">CAD — Direktorat civilnog vazduhoplovstva</a>,
+        <a href="https://www.carinacil.rs" target="_blank" rel="noopener">Uprava carina</a>
+        <span class="link-url">mgsi.gov.rs · raildir.gov.rs · cadin.rs · Lista delatnosti SG 94/2019</span>
+      </li>
+      <li>
+        <strong>Zdravstvo</strong> —
+        <a href="https://www.zdravlje.gov.rs" target="_blank" rel="noopener">Ministarstvo zdravlja</a>,
+        <a href="https://www.rfzo.rs" target="_blank" rel="noopener">RFZO</a>
+        <span class="link-url">zdravlje.gov.rs · rfzo.rs</span>
+      </li>
+      <li>
+        <strong>Vodosnabdevanje / Otpadne vode</strong> —
+        <a href="https://www.minpolj.gov.rs" target="_blank" rel="noopener">Ministarstvo poljoprivrede</a>,
+        <a href="https://www.srbijavode.rs" target="_blank" rel="noopener">Srbijavode</a>
+        <span class="link-url">minpolj.gov.rs · srbijavode.rs</span>
+      </li>
+      <li>
+        <strong>Digitalna infrastruktura / IXP</strong> —
+        <a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" rel="noopener">RATEL — podzakonski akti</a>,
+        <a href="https://mit.gov.rs" target="_blank" rel="noopener">MIT</a>
+        <span class="link-url">ratel.rs · mit.gov.rs</span>
+      </li>
+      <li>
+        <strong>Elektronske komunikacije</strong> —
+        <a href="https://www.ratel.rs/storage/upload/2024/09/Uredba%20o%20utvr%C4%91ivanju%20Liste%20delatnosti%20u%20oblastima%20u%20kojima%20se%20obavljaju%20delatnosti%20od%20op%C5%A1teg%20interesa%20i%20u%20kojima%20se%20koriste%20informaciono-komunikacioni%20sistemi%20od%20posebnog%20zna%C4%8Daja.pdf" target="_blank" rel="noopener">Lista delatnosti — Uredba</a>,
+        <a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" rel="noopener">RATEL — IB propisi</a>
+        <span class="link-url">ratel.rs</span>
+      </li>
+      <li>
+        <strong>Državna uprava</strong> —
+        <a href="https://www.ite.gov.rs" target="_blank" rel="noopener">Kancelarija za IT i eUpravu</a>,
+        <a href="https://mit.gov.rs" target="_blank" rel="noopener">MIT</a>
+        <span class="link-url">ite.gov.rs · mit.gov.rs</span>
+      </li>
+      <li>
+        <strong>IKT usluge (cloud, data centri, hosting)</strong> —
+        <a href="https://mit.gov.rs" target="_blank" rel="noopener">MIT</a>
+        <span class="link-url">mit.gov.rs</span>
+      </li>
+    </ul>
+
+    <h4 style="color:var(--important);font-size:14px;font-weight:600;margin:16px 0 8px" data-i18n="res_sectoral_important_title">🟠 VAŽNI IKT sistemi (important)</h4>
+    <ul>
+      <li>
+        <strong>Poštanske usluge</strong> —
+        <a href="https://www.ratel.rs" target="_blank" rel="noopener">RATEL</a>
+        <span class="link-url">ratel.rs</span>
+      </li>
+      <li>
+        <strong>Proizvodnja hrane</strong> —
+        <a href="https://www.minpolj.gov.rs" target="_blank" rel="noopener">Ministarstvo poljoprivrede</a>
+        <span class="link-url">minpolj.gov.rs</span>
+      </li>
+      <li>
+        <strong>Hemijska industrija</strong> —
+        <a href="https://www.ekologija.gov.rs" target="_blank" rel="noopener">Ministarstvo zaštite životne sredine</a>
+        <span class="link-url">ekologija.gov.rs</span>
+      </li>
+      <li>
+        <strong>Farmaceutika / Medicinska sredstva</strong> —
+        <a href="https://www.alims.gov.rs" target="_blank" rel="noopener">ALIMS</a>,
+        <a href="https://www.zdravlje.gov.rs" target="_blank" rel="noopener">Min. zdravlja</a>
+        <span class="link-url">alims.gov.rs · zdravlje.gov.rs</span>
+      </li>
+      <li>
+        <strong>Proizvodnja (elektronika, računari, vozila)</strong> —
+        <a href="https://www.privreda.gov.rs" target="_blank" rel="noopener">Ministarstvo privrede</a>
+        <span class="link-url">privreda.gov.rs</span>
+      </li>
+      <li>
+        <strong>Digitalni provajderi (pretraživači, društvene mreže, online marketplace)</strong> —
+        <a href="https://mit.gov.rs" target="_blank" rel="noopener">MIT</a> —
+        <span style="font-size:11px;color:var(--text-dim)">NIS2 Aneks II — pod nadzorom MIT</span>
+        <span class="link-url">mit.gov.rs</span>
+      </li>
+      <li>
+        <strong>Upravljanje otpadom</strong> —
+        <a href="https://www.ekologija.gov.rs" target="_blank" rel="noopener">Ministarstvo zaštite životne sredine</a>
+        <span class="link-url">ekologija.gov.rs</span>
+      </li>
+    </ul>
+
+    <p style="color:var(--text-dim);font-size:12px;margin-top:12px;line-height:1.5" data-i18n="res_sectoral_note">📌 Napomena: Novi podzakonski akti po ZIB 2025 još nisu doneti — do tada važe postojeći (član 57 ZIB). NBS već ima sopstvene propise o IS standardima za finansijske institucije (5 odluka sa direktnim PDF linkovima iznad). Za ostale sektore specifični zahtevi tek slede — krovni opšti propisi (Lista delatnosti, mere zaštite, incident procedure) važe dok se ne zamene.</p>
+  </div>
+
+  <div class="res-section" id="res-inc">
+    <h3 data-i18n="res_inc_title">Postupak prijave incidenta — korak po korak</h3>
+    <p style="color:var(--text-dim);font-size:13px;margin-bottom:12px;line-height:1.5" data-i18n="res_inc_intro">ZIB 2025 obavezuje operatore da prijave značajan incident najkasnije 24h od saznanja. Ispod je praktična procedura zasnovana na zakonu i procedurama Nacionalnog CERT-a:</p>
+
+    <div class="deadline-box" style="margin:0 0 16px;background:rgba(255,68,68,0.08);border-color:rgba(255,68,68,0.2)">
+      <strong style="font-size:15px" data-i18n="res_inc_step1_title">1. DETEKCIJA I PROCENA (T+0h — T+1h)</strong>
+      <p style="margin-top:6px;line-height:1.6;font-size:14px" data-i18n="res_inc_step1_text">
+        • Utvrdite da li je incident stvaran (ne lažni alarm)<br>
+        • Procenite nivo opasnosti prema sledećim kriterijumima:<br>
+        &nbsp;&nbsp;<strong>Nizak</strong> — incident bez uticaja na rad sistema, bez gubitka podataka (npr. phishing mejl koji nije aktiviran)<br>
+        &nbsp;&nbsp;<strong>Srednji</strong> — incident sa ograničenim uticajem na rad ICT sistema, moguć gubitak manjeg obima podataka — <strong>obavezna prijava CERT-u</strong><br>
+        &nbsp;&nbsp;<strong>Visok</strong> — ozbiljan prekid rada sistema, gubitak značajnih podataka, potencijalni uticaj na korisnike — <strong>hitne mere + prijava</strong><br>
+        &nbsp;&nbsp;<strong>Veoma visok</strong> — potpuni prekid kritičnih sistema, ugrožena nacionalna bezbednost ili javno zdravlje — <strong>krizni menadžment + hitna prijava</strong><br>
+        • Zabeležite: vreme otkrivanja, vrsta incidenta, pogođeni ICT sistemi, obim štete, da li je posledica krivičnog dela
+      </p>
+    </div>
+
+    <div class="deadline-box" style="margin:0 0 16px;background:rgba(255,170,0,0.08);border-color:rgba(255,170,0,0.2)">
+      <strong style="font-size:15px" data-i18n="res_inc_step2_title">2. PRVA PRIJAVA (T+1h — T+24h)</strong>
+      <p style="margin-top:6px;line-height:1.6;font-size:14px" data-i18n="res_inc_step2_text">
+        • Popunite formular na <a href="https://www.cert.rs/rs/prijava.html" target="_blank" style="color:var(--accent)">cert.rs → Prijavi incident</a><br>
+        • Izaberite kategoriju: <strong>IKT sistem od posebnog značaja</strong><br>
+        • Obavezni podaci: opis incidenta, posledice, preduzete mere, procena nivoa opasnosti, podaci o prekograničnom dejstvu<br>
+        • Ako su potrebni prilozi (logovi, uzorci) — pošaljite ih naknadno na <strong>info@cert.rs</strong> sa referentnim brojem prijave<br>
+        • Telefonska prijava: <strong>062/20-20-30</strong> (Nacionalni CERT — 24h)<br>
+        • Ukoliko incident ima elemente krivičnog dela — istovremeno prijavite:<br>
+        &nbsp;&nbsp;→ <strong>Posebno tužilaštvo za visokotehnološki kriminal</strong>: <a href="mailto:vtk@vtk.jt.rs" style="color:var(--accent)">vtk@vtk.jt.rs</a> · <a href="https://www.beograd.vtk.jt.rs" target="_blank" style="color:var(--accent)">beograd.vtk.jt.rs</a><br>
+        &nbsp;&nbsp;→ <strong>MUP — Odeljenje za VTK</strong>: <a href="mailto:vtk@mup.gov.rs" style="color:var(--accent)">vtk@mup.gov.rs</a> · 011/274-39-28 · 011/357-33-67
+      </p>
+    </div>
+
+    <div class="deadline-box" style="margin:0 0 16px;background:rgba(68,170,0,0.08);border-color:rgba(68,170,0,0.2)">
+      <strong style="font-size:15px" data-i18n="res_inc_step3_title">3. PERIODIČNI IZVEŠTAJI (T+24h — T+72h i dalje)</strong>
+      <p style="margin-top:6px;line-height:1.6;font-size:14px" data-i18n="res_inc_step3_text">
+        • Zakon zahteva periodično izveštavanje tokom trajanja incidenta<br>
+        • Ažurirajte prijavu kroz isti kanal: <strong>info@cert.rs</strong> (sa ID brojem prijave)<br>
+        • Obavezna dopuna: promene u obimu, nove ugrožene komponente, nove preduzete mere<br>
+        • Ako incident utiče na korisnike vaših usluga — obavestite i njih (sa merama za ublažavanje posledica)
+      </p>
+    </div>
+
+    <div class="deadline-box" style="margin:0 0 16px;background:rgba(0,100,200,0.06);border-color:rgba(0,100,200,0.15)">
+      <strong style="font-size:15px" data-i18n="res_inc_step4_title">4. ZAVRŠNI IZVEŠTAJ (nakon okončanja)</strong>
+      <p style="margin-top:6px;line-height:1.6;font-size:14px" data-i18n="res_inc_step4_text">
+        • Podnesite završni izveštaj Nacionalnom CERT-u<br>
+        • Sadrži: konačna analiza uzroka, preduzete korektivne mere, dokazi o otklanjanju ranjivosti<br>
+        • Završni izveštaj služi i kao osnov za godišnju proveru usklađenosti
+      </p>
+    </div>
+
+    <h4 style="color:var(--text);font-size:14px;font-weight:600;margin:16px 0 8px" data-i18n="res_inc_contacts_title">📞 Ključni kontakti</h4>
+    <ul>
+      <li>
+        <strong>Nacionalni CERT RS</strong> —
+        <a href="https://www.cert.rs/rs/prijava.html" target="_blank" rel="noopener">Formular za prijavu</a> ·
+        <a href="mailto:info@cert.rs">info@cert.rs</a> ·
+        <strong>062/20-20-30</strong>
+        <span class="link-url">Palmotićeva 2, 11103 Beograd · cert.rs — 24h/7</span>
+      </li>
+      <li>
+        <strong>PGP ključ</strong> —
+        <a href="https://www.cert.rs/rs/stranica/57-O+Nacionalnom+CERT-u.html" target="_blank" rel="noopener">Preuzmi PGP ključ za šifrovanu komunikaciju</a>
+        <span class="link-url">cert.rs</span>
+      </li>
+      <li>
+        <strong>Registar posebnih CERT-ova</strong> —
+        <a href="https://www.cert.rs/rs/evidencija-certova.html" target="_blank" rel="noopener">Pretraži registar</a>
+        <span class="link-url">cert.rs — interni SOC / MSSP CERT-ovi</span>
+      </li>
+      <li>
+        <strong>Posebno tužilaštvo za visokotehnološki kriminal</strong> —
+        <a href="mailto:vtk@vtk.jt.rs">vtk@vtk.jt.rs</a> ·
+        <a href="https://www.beograd.vtk.jt.rs" target="_blank" rel="noopener">beograd.vtk.jt.rs</a>
+        <span class="link-url">VTK tužilaštvo — Više javno tužilaštvo u Beogradu</span>
+      </li>
+      <li>
+        <strong>MUP — Odeljenje za visokotehnološki kriminal</strong> —
+        <a href="mailto:vtk@mup.gov.rs">vtk@mup.gov.rs</a> ·
+        <strong>011/274-39-28</strong> · <strong>011/357-33-67</strong>
+        <span class="link-url">mup.gov.rs — prijava krivičnih dela VTK</span>
+      </li>
+      <li>
+        <strong>MIT — Sektor za informacionu bezbednost</strong> —
+        <a href="https://mit.gov.rs/tekst/sr/702/sektor-za-informaciono-drustvo-i-informacionu-bezbednost.php" target="_blank" rel="noopener">Inspekcijski nadzor i godišnji izveštaji</a>
+        <span class="link-url">mit.gov.rs</span>
+      </li>
+    </ul>
+
+    <h4 style="color:var(--text);font-size:14px;font-weight:600;margin:16px 0 8px" data-i18n="res_inc_forms_title">📋 Korisni dokumenti</h4>
+    <ul>
+      <li>
+        <a href="https://www.cert.rs/rs/vest/401-Nacionalni-CERT-pripremio-Uputstvo-za-prijavu-incidenata.html" target="_blank" rel="noopener">
+          Nacionalni CERT — Uputstvo za prijavu incidenta ↗
+        </a>
+        <span class="link-url">cert.rs — objava iz 2020.</span>
+      </li>
+      <li>
+        <a href="https://www.ratel.rs/storage/upload/2024/09/Uredba%20o%20postupku%20obave%C5%A1tavanja%20o%20incidentima%20u%20informaciono-komunikacionim%20sistemima%20od%20%20posebnog%20zna%C4%8Daja.pdf" target="_blank" rel="noopener">
+          Uredba o postupku obaveštavanja o incidentima ↗
+        </a>
+        <span class="link-url">ratel.rs — Sl. glasnik RS (PDF)</span>
+      </li>
+      <li>
+        <a href="https://www.cert.rs/rs/cesto-postavljana-pitanja.html" target="_blank" rel="noopener">
+          Nacionalni CERT — Često postavljana pitanja ↗
+        </a>
+        <span class="link-url">cert.rs — FAQ</span>
+      </li>
+      <li>
+        <a href="https://www.ratel.rs/sr/blog-posts-view-all/model-akta-o-bezbednosti-ikt-sistema-1" target="_blank" rel="noopener">
+          RATEL — Model akta bezbednosti ICT sistema ↗
+        </a>
+        <span class="link-url">ratel.rs</span>
+      </li>
+    </ul>
+
+    <p style="color:var(--text-dim);font-size:12px;margin-top:12px;line-height:1.5" data-i18n="res_inc_note">⚠️ Ova procedura je zasnovana na ZIB 2025 i procedurama Nacionalnog CERT-a. Podzakonski akti (očekuju se do oktobra 2026) mogu uneti dodatne detalje. Za pravnu sigurnost konsultujte advokata.</p>
+  </div>
+
+  <div class="res-section" id="res-fines">
+    <h3 data-i18n="res_fines_title">Kazne i rokovi</h3>
+    <div class="deadline-box" style="margin:0">
+      <p data-i18n="res_fines_summary">PRIORITY operatori: do 2,000,000 RSD (~€17,000) za pravna lica. IMPORTANT operatori: do 1,000,000 RSD (~€8,500). Odgovorna lica: do 50,000 RSD (~€425) + zabrana obavljanja funkcije.</p>
+      <p style="margin-top:8px" data-i18n="res_fines_deadline">Registracija: 90 dana nakon usvajanja podzakonskih akata. Akt bezbednosti: do aprila 2027. Godišnja provera usklađenosti.</p>
+    </div>
+  </div>
+
+</div>
+
+<!-- TAB: FAQ -->
+<div class="tab-content hidden" id="tab-faq">
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q1">Šta je ZIB 2025?</div>
+    <div class="faq-a">
+      <p data-i18n="faq_a1">Zakon o informacionoj bezbednosti (ZIB 2025) je srpski zakon koji transponuje EU NIS2 direktivu. Stupio je na snagu 31. oktobra 2025. Uvodi obaveze za operatore ICT sistema u ključnim sektorima — energetika, saobraćaj, bankarstvo, zdravstvo, ICT i drugi.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q2">Koja je razlika između Priority i Important operatora?</div>
+    <div class="faq-a">
+      <p data-i18n="faq_a2"><strong>Priority</strong> operatori su iz sektora energetike, saobraćaja, bankarstva, zdravstva, vodosnabdevanja, državne uprave, ICT usluga i digitalne identifikacije. <strong>Important</strong> operatori su iz poštanskih usluga, proizvodnje, prehrambene industrije, hemijske industrije, farmacije i upravljanja otpadom. Priority imaju strože zahteve i veće kazne.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q3">Šta ako ne ispunim obaveze?</div>
+    <div class="faq-a">
+      <p data-i18n="faq_a3">Za PRIORITY operatore: kazne do 2,000,000 RSD (~€17,000) za pravna lica i do 50,000 RSD (~€425) za odgovorna lica, uz mogućnost privremene zabrane obavljanja funkcije. Za IMPORTANT operatore: do 1,000,000 RSD (~€8,500). Takođe, inspekcijski nadzor sprovodi MIT / Office for Information Security.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q4">Da li moram da imam SOC?</div>
+    <div class="faq-a">
+      <p data-i18n="faq_a4">Zakon zahteva uspostavljanje sistema za monitoring i reagovanje na incidente. To može biti interni SOC (Security Operations Center) ili eksterni MSSP (Managed Security Service Provider). Izbor zavisi od veličine i složenosti vaše organizacije.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q5">Koje su ključne mere bezbednosti?</div>
+    <div class="faq-a">
+      <p data-i18n="faq_a5">ZIB 2025 propisuje 28 mera zaštite koje pokrivaju: upravljanje rizicima, politike bezbednosti, kontrolu pristupa, kriptografiju, sigurnost mreže, upravljanje ranjivostima, bezbednost ljudskih resursa, fizičku bezbednost, upravljanje incidentima, kontinuitet poslovanja i bezbednost lanca snabdevanja.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q6">Kako da se registrujem kao operator?</div>
+    <div class="faq-a">
+      <p data-i18n="faq_a6">Registracija se vrši preko portala Ministarstva informisanja i telekomunikacija (MIT) u roku od 90 dana od usvajanja podzakonskih akata. Potrebno je dostaviti podatke o organizaciji, ICT sistemima i kategoriji (Priority ili Important).</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q7">Kada sve treba da bude gotovo?</div>
+    <div class="faq-a">
+      <p data-i18n="faq_a7">Zakon je stupio na snagu 31.10.2025. Podzakonski akti se očekuju u roku od 12 meseci. Nakon njihovog usvajanja: 90 dana za registraciju, april 2027. za Akt bezbednosti ICT sistema, i godišnje provere usklađenosti.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="toggleFaq(this)" data-i18n="faq_q8">Zašto Srbija harmonizuje svoj zakon sa EU NIS2?</div>
+    <div class="faq-a">
+      <p data-i18n="faq_a8">Srbija je od 2012. godine kandidat za članstvo u Evropskoj uniji i obavezna je da usklađuje svoje zakonodavstvo sa EU pravnim tekovinama (<em>acquis communautaire</em>). Pored toga, Srbija je članica Energetske zajednice (Energy Community) i drugih međunarodnih tela koja zahtevaju usklađivanje sa EU regulativom. NIS2 direktiva (EU 2022/2555) zamenjuje raniju NIS direktivu iz 2016. godine i uvodi strože zahteve: prošireni krug sektora, obavezno upravljanje rizicima, obavezu prijave incidenata (24h), i veće kazne. ZIB 2025 je srpski ekvivalent ove direktive — stupio je na snagu 31. oktobra 2025. i primenjuje se od 1. januara 2027. godine.</p>
+    </div>
+  </div>
+
+</div>
+
+</div> <!-- container -->
+
+<script>
+// ============================================================
+// i18n: Serbian (SR, SR-C), Russian (RU), English (EN)
+// ============================================================
+const LANG = {
+  sr: {
+    badge: 'ZAKON O INFORMACIONOJ BEZBEDNOSTI',
+    title: 'Samoprocena obaveza<br>prema ZIB 2025 (NIS2)',
+    subtitle: 'Proverite da li vaša organizacija podleže novom Zakonu o informacionoj bezbednosti, koja ste kategorija i šta treba da preduzmete.',
+    welcome_text: 'EU direktiva NIS2 (2022/2555) postavlja visok zajednički nivo sajber bezbednosti širom EU. Kao kandidat za članstvo u EU, Srbija usklađuje svoje zakonodavstvo — novi Zakon o informacionoj bezbednosti (ZIB 2025, Sl. glasnik 91/2025) transponuje NIS2 u srpski pravni okvir.<br><br>Ovaj alat pomaže da utvrdite:<br>• Da li vaša organizacija podleže zakonu<br>• Koju kategoriju imate (Priority ili Important)<br>• Koje su vaše obaveze i rokovi',
+    start_btn: 'Započni procenu →',
+    take_3min: 'Traje oko 3 minuta. Bez registracije.',
+    step_1of: 'KORAK 1/4',
+    step_2of: 'KORAK 2/4',
+    step_3of: 'KORAK 3/4',
+    step_4of: 'KORAK 4/4',
+    q_sector: 'Kojem sektoru pripada vaša organizacija?',
+    q_size: 'Koliko zaposlenih ima vaša organizacija?',
+    q_impact: 'Da li bi prekid vaših ICT sistema mogao da izazove značajan uticaj na javnu bezbednost, nacionalnu bezbednost ili javno zdravlje?',
+    q_cloud: 'Da li koristite cloud usluge, eksterne ICT provajdere ili upravljate ICT sistemima za druge organizacije?',
+    back_btn: '← Nazad',
+    next_btn: 'Dalje →',
+    restart_btn: 'Proveri ponovo',
+    print_btn: '🖨️ Štampaj',
+    disclaimer: 'Ova samoprocena služi samo u informativne svrhe i ne predstavlja pravni savet. Za detaljnu analizu obaveza vaše organizacije, konsultujte se sa advokatom ili licenciranim konsultantom za informacionu bezbednost.',
+    footer_github: 'Pogledaj na GitHub-u',
+    footer_mit: 'Ovo delo je licencirano pod <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.sr-latn" target="_blank" rel="noopener">CC BY-SA 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em">',
+    // Sector options
+    sector_energy: 'Energetika — npr. EPS, NIS, elektrodistribucija, toplane',
+    sector_transport: 'Saobraćaj — npr. Aerodrom Nikola Tesla, Železnice Srbije, Gradski prevoz',
+    sector_banking: 'Bankarstvo / Finansije — npr. banke, osiguravajuća društva, berza',
+    sector_health: 'Zdravstvo — npr. bolnice, domovi zdravlja, apoteke',
+    sector_water: 'Vodosnabdevanje — npr. vodovod, prečistači',
+    sector_gov: 'Državna uprava — npr. ministarstva, gradovi, opštine, javne službe',
+    sector_ict: 'ICT usluge — npr. cloud provajderi, data centri, hosting kompanije',
+    sector_digital: 'Digitalna identifikacija — npr. sertifikaciona tela, e-potpis',
+    sector_postal: 'Poštanske usluge',
+    sector_manufacturing: 'Proizvodnja (elektronika, mašine, vozila)',
+    sector_food: 'Proizvodnja i distribucija hrane',
+    sector_chem: 'Hemijska industrija',
+    sector_pharma: 'Farmaceutika / Medicinska sredstva',
+    sector_waste: 'Upravljanje otpadom',
+    sector_other: 'Drugi sektor (nije naveden)',
+    // Size options
+    size_small: 'Malo preduzeće (do 50 zaposlenih)',
+    size_medium: 'Srednje preduzeće (50–250 zaposlenih)',
+    size_large: 'Veliko preduzeće (preko 250 zaposlenih)',
+    // Yes/No
+    yes: 'Da',
+    no: 'Ne',
+    not_sure: 'Nisam siguran / Verovatno da',
+    // Results
+    result_priority_title: '✅ PRIORITY operator',
+    result_priority_desc: 'Vaša organizacija podleže ZIB 2025 kao PRIORITY operator (ekvivalent "Essential" po NIS2 direktivi).',
+    result_important_title: '⚠️ IMPORTANT operator',
+    result_important_desc: 'Vaša organizacija podleže ZIB 2025 kao IMPORTANT operator.',
+    result_maybe_title: '📋 Možda podležete',
+    result_maybe_desc: 'Na osnovu vaših odgovora, vaša organizacija MOŽDA podleže ZIB 2025. Preporučujemo konsultaciju sa pravnim savetnikom.',
+    result_none_title: '✅ Verovatno ne podležete',
+    result_none_desc: 'Na osnovu vaših odgovora, vaša organizacija verovatno NE podleže ZIB 2025. Preporučujemo periodičnu proveru pošto se propisi mogu proširiti.',
+    // Checklist
+    check_register: 'Registrujte se u registar operatora ICT sistema (u roku od 90 dana od usvajanja podzakonskih akata)<br><a href="https://mit.gov.rs/tekst/sr/180/upis-u-evidenciju-operatora-ikt-sistema-od-posebnog-znacaja.php" target="_blank" style="color:var(--accent);font-size:13px">→ Portal MIT</a>',
+    check_risk: 'Izradite procenu rizika za vaše ICT sisteme<br><a href="https://www.pravno-informacioni-sistem.rs/eli/rep/sgrs/skupstina/zakon/2025/91/5/reg" target="_blank" style="color:var(--accent);font-size:13px">→ PIS — tekst ZIB 2025</a>',
+    check_act: 'Doneti Akt bezbednosti ICT sistema (do aprila 2027)<br><a href="https://www.ratel.rs/sr/blog-posts-view-all/model-akta-o-bezbednosti-ikt-sistema-1" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — Model akta</a>',
+    check_measures: 'Implementirajte 28 mera zaštite (tehničke, operativne, organizacione, fizičke)<br><a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — Podzakonski akti</a>',
+    check_supply: 'Uspostavite due diligence za ICT dobavljače (uključujući cloud)<br><a href="https://www.ratel.rs/sr/strategije-studije-i-smernice-iz-oblasti-informacione-bezbednosti" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — Smernice za IKT bezbednost</a>',
+    check_incident: 'Uspostavite proceduru prijave incidenata (24h za značajne incidente)<br><a href="https://www.cert.rs/rs/prijava.html" target="_blank" style="color:var(--accent);font-size:13px">→ Nacionalni CERT — prijava</a>',
+    check_soc: 'Uspostavite SOC ili angažujte MSSP za monitoring i reagovanje<br><a href="https://www.cert.rs/rs/evidencija-certova.html" target="_blank" style="color:var(--accent);font-size:13px">→ Nacionalni CERT — registar posebnih CERT timova</a>',
+    check_compliance: 'Sprovedite godišnju proveru usklađenosti (compliance check)<br><a href="https://mit.gov.rs/tekst/sr/702/sektor-za-informaciono-drustvo-i-informacionu-bezbednost.php" target="_blank" style="color:var(--accent);font-size:13px">→ MIT — kontrolne liste i godišnji izveštaj</a>',
+    check_audit: 'Osigurajte mogućnost inspekcije od strane MIT / Office for Information Security<br><a href="https://mit.gov.rs/tekst/sr/702/sektor-za-informaciono-drustvo-i-informacionu-bezbednost.php" target="_blank" style="color:var(--accent);font-size:13px">→ MIT — Sektor za inspekcijski nadzor</a>',
+    // Deadline box
+    deadline_title: '📅 Ključni rokovi',
+    deadline_text: 'Zakon je stupio na snagu 31.10.2025. Podzakonski akti se očekuju u roku od 12 meseci.<br><br>• <strong>90 dana</strong> nakon usvajanja podzakonskih akata — registracija<br>• <strong>April 2027</strong> — Akt bezbednosti ICT sistema<br>• <strong>Godišnje</strong> — Provera usklađenosti',
+    // Fines box
+    fines_title: '💰 Kazne',
+    fines_text_priority: 'Za PRIORITY operatore: do <strong>2,000,000 RSD (~€17,000)</strong> za pravna lica, do <strong>50,000 RSD (~€425)</strong> za odgovorna lica + privremena zabrana obavljanja funkcije.',
+    fines_text_important: 'Za IMPORTANT operatore: do <strong>1,000,000 RSD (~€8,500)</strong> za pravna lica, do <strong>50,000 RSD (~€425)</strong> za odgovorna lica.',
+    sources_title: 'Izvori / Sources',
+    result_maybe_prepare: 'Da biste bili spremni ukoliko zakon obuhvati vašu organizaciju, preporučujemo sledeće pripremne korake:',
+    // Tabs
+    tab_tool: 'Samoprocena',
+    tab_resources: 'Resursi',
+    tab_faq: 'FAQ',
+    // Resources
+    res_law_title: 'Zakon i podzakonska akta',
+    res_law_pis: 'ZIB 2025 — pun tekst zakona',
+    res_law_ratel: 'RATEL — podzakonski akti',
+    res_law_model: 'Model akta bezbednosti ICT sistema',
+    res_reg_title: 'Registracija operatora',
+    res_reg_mit: 'MIT — portal za registraciju operatora',
+    res_reg_checklist: 'MIT — kontrolne liste i izveštaji',
+    res_sec_title: 'Mere bezbednosti',
+    res_sec_guidelines: 'RATEL — smernice za IKT bezbednost',
+    res_sec_measures: '28 mera zaštite — Uredba o merama zaštite (PDF)',
+    // Data protection
+    res_dp_title: 'Zaštita podataka o ličnosti / GDPR',
+    res_dp_poverenik: 'Poverenik za informacije od javnog značaja i zaštitu podataka o ličnosti',
+    res_dp_law: 'Zakon o zaštiti podataka o ličnosti (ZS1/2018)',
+    res_dp_ats: 'ATS — Akreditaciono telo Srbije (ISO 27001 sertifikacija)',
+    // Incident procedure
+    res_inc_title: 'Postupak prijave incidenta — korak po korak',
+    res_inc_intro: 'ZIB 2025 obavezuje operatore da prijave značajan incident najkasnije 24h od saznanja. Ispod je praktična procedura zasnovana na zakonu i procedurama Nacionalnog CERT-a:',
+    res_inc_step1_title: '1. DETEKCIJA I PROCENA (T+0h — T+1h)',
+    res_inc_step1_text: '• Utvrdite da li je incident stvaran (ne lažni alarm)<br>• Procenite nivo opasnosti: nizak | srednji | visok | veoma visok<br>• Zabeležite: vreme otkrivanja, vrsta incidenta, pogođeni ICT sistemi, obim štete<br>• Ako je nivo srednji ili viši — obavezna prijava Nacionalnom CERT-u',
+    res_inc_step2_title: '2. PRVA PRIJAVA (T+1h — T+24h)',
+    res_inc_step2_text: '• Popunite formular na cert.rs → Prijavi incident<br>• Izaberite kategoriju: IKT sistem od posebnog značaja<br>• Obavezni podaci: opis incidenta, posledice, preduzete mere, procena nivoa opasnosti, podaci o prekograničnom dejstvu<br>• Ako su potrebni prilozi — pošaljite ih naknadno na info@cert.rs sa referentnim brojem prijave<br>• Ukoliko incident ima elemente krivičnog dela — prijavite Posebnom tužilaštvu za visokotehnološki kriminal',
+    res_inc_step3_title: '3. PERIODIČNI IZVEŠTAJI (T+24h — T+72h i dalje)',
+    res_inc_step3_text: '• Zakon zahteva periodično izveštavanje tokom trajanja incidenta<br>• Ažurirajte prijavu kroz isti kanal: info@cert.rs (sa ID brojem prijave)<br>• Obavezna dopuna: promene u obimu, nove ugrožene komponente, nove preduzete mere<br>• Ako incident utiče na korisnike usluga — obavestite ih sa merama za ublažavanje',
+    res_inc_step4_title: '4. ZAVRŠNI IZVEŠTAJ (nakon okončanja)',
+    res_inc_step4_text: '• Podnesite završni izveštaj Nacionalnom CERT-u<br>• Sadrži: konačna analiza uzroka, preduzete korektivne mere, dokazi o otklanjanju ranjivosti<br>• Završni izveštaj služi kao osnov za godišnju proveru usklađenosti',
+    res_inc_contacts_title: '📞 Ključni kontakti',
+    res_inc_forms_title: '📋 Korisni dokumenti',
+    res_inc_note: '⚠️ Ova procedura je zasnovana na ZIB 2025 i procedurama Nacionalnog CERT-a. Podzakonski akti (očekuju se do oktobra 2026) mogu uneti dodatne detalje.',
+    res_fines_title: 'Kazne i rokovi',
+    res_sectoral_title: 'Sektorski propisi — klasifikacija po ZIB 2025',
+    res_sectoral_intro: 'ZIB 2025 (član 5) deli operatore na PRIORITETNE i VAŽNE u zavisnosti od sektora. Ispod su nadležni organi i postojeći propisi po sektorima:',
+    res_sectoral_priority_title: '🔴 PRIORITETNI IKT sistemi (essential)',
+    res_sectoral_important_title: '🟠 VAŽNI IKT sistemi (important)',
+    res_sectoral_note: '📌 Napomena: Novi podzakonski akti po ZIB 2025 još nisu doneti — do tada važe postojeći (član 57 ZIB). NBS već ima sopstvene propise o IS standardima za finansijske institucije (5 odluka sa direktnim PDF linkovima iznad). Za ostale sektore specifični zahtevi tek slede — krovni opšti propisi (Lista delatnosti, mere zaštite, incident procedure) važe dok se ne zamene.',
+    res_fines_title: 'Kazne i rokovi',
+    res_fines_summary: 'PRIORITY operatori: do 2,000,000 RSD (~€17,000) za pravna lica. IMPORTANT operatori: do 1,000,000 RSD (~€8,500). Odgovorna lica: do 50,000 RSD (~€425) + zabrana obavljanja funkcije.',
+    res_fines_deadline: 'Registracija: 90 dana nakon usvajanja podzakonskih akata. Akt bezbednosti: do aprila 2027. Godišnja provera usklađenosti.',
+    // FAQ
+    faq_q1: 'Šta je ZIB 2025?',
+    faq_q2: 'Koja je razlika između Priority i Important operatora?',
+    faq_q3: 'Šta ako ne ispunim obaveze?',
+    faq_q4: 'Da li moram da imam SOC?',
+    faq_q5: 'Koje su ključne mere bezbednosti?',
+    faq_q6: 'Kako da se registrujem kao operator?',
+    faq_q7: 'Kada sve treba da bude gotovo?',
+    faq_a1: 'Zakon o informacionoj bezbednosti (ZIB 2025) je srpski zakon koji transponuje EU NIS2 direktivu. Stupio je na snagu 31. oktobra 2025. Uvodi obaveze za operatore ICT sistema u ključnim sektorima — energetika, saobraćaj, bankarstvo, zdravstvo, ICT i drugi.',
+    faq_a2: '<strong>Priority</strong> operatori su iz sektora energetike, saobraćaja, bankarstva, zdravstva, vodosnabdevanja, državne uprave, ICT usluga i digitalne identifikacije. <strong>Important</strong> operatori su iz poštanskih usluga, proizvodnje, prehrambene industrije, hemijske industrije, farmacije i upravljanja otpadom. Priority imaju strože zahteve i veće kazne.',
+    faq_a3: 'Za PRIORITY operatore: kazne do 2,000,000 RSD (~€17,000) za pravna lica i do 50,000 RSD (~€425) za odgovorna lica, uz mogućnost privremene zabrane obavljanja funkcije. Za IMPORTANT operatore: do 1,000,000 RSD (~€8,500). Takođe, inspekcijski nadzor sprovodi MIT / Office for Information Security.',
+    faq_a4: 'Zakon zahteva uspostavljanje sistema za monitoring i reagovanje na incidente. To može biti interni SOC (Security Operations Center) ili eksterni MSSP (Managed Security Service Provider). Izbor zavisi od veličine i složenosti vaše organizacije.',
+    faq_a5: 'ZIB 2025 propisuje 28 mera zaštite koje pokrivaju: upravljanje rizicima, politike bezbednosti, kontrolu pristupa, kriptografiju, sigurnost mreže, upravljanje ranjivostima, bezbednost ljudskih resursa, fizičku bezbednost, upravljanje incidentima, kontinuitet poslovanja i bezbednost lanca snabdevanja.',
+    faq_a6: 'Registracija se vrši preko portala Ministarstva informisanja i telekomunikacija (MIT) u roku od 90 dana od usvajanja podzakonskih akata. Potrebno je dostaviti podatke o organizaciji, ICT sistemima i kategoriji (Priority ili Important).',
+    faq_a7: 'Zakon je stupio na snagu 31.10.2025. Podzakonski akti se očekuju u roku od 12 meseci. Nakon njihovog usvajanja: 90 dana za registraciju, april 2027. za Akt bezbednosti ICT sistema, i godišnje provere usklađenosti.',
+    // FAQ Q8 — NIS2 harmonization
+    faq_q8: 'Zašto Srbija harmonizuje svoj zakon sa EU NIS2?',
+    faq_a8: 'Srbija je od 2012. godine kandidat za članstvo u Evropskoj uniji i obavezna je da usklađuje svoje zakonodavstvo sa EU pravnim tekovinama (<em>acquis communautaire</em>). Pored toga, Srbija je članica Energetske zajednice i drugih međunarodnih tela koja zahtevaju usklađivanje sa EU regulativom. NIS2 direktiva (EU 2022/2555) zamenjuje raniju NIS direktivu iz 2016. godine. ZIB 2025 je srpski ekvivalent ove direktive — stupio je na snagu 31. oktobra 2025. i primenjuje se od 1. januara 2027.',
+  },
+  "sr-c": {
+    badge: 'ЗАКОН О ИНФОРМАЦИОНОЈ БЕЗБЕДНОСТИ',
+    title: 'Самопроцена обавеза<br>према ZIB 2025 (NIS2)',
+    subtitle: 'Проверите да ли ваша организација подлеже новом Закону о информационој безбедности, која сте категорија и шта треба да предузмете.',
+    welcome_text: 'ЕУ директива NIS2 (2022/2555) поставља висок заједнички ниво сајбер безбедности широм ЕУ. Као кандидат за чланство у ЕУ, Србија усклађује своје законодавство — нови Закон о информационој безбедности (ZIB 2025, Сл. гласник 91/2025) транспонује NIS2 у српски правни оквир.<br><br>Овај алат помаже да утврдите:<br>• Да ли ваша организација подлеже закону<br>• Коју категорију имате (Priority или Important)<br>• Које су ваше обавезе и рокови',
+    start_btn: 'Започни процену →',
+    take_3min: 'Traje oko 3 minuta. Bez registracije.',
+    step_1of: 'KORAK 1/4',
+    step_2of: 'KORAK 2/4',
+    step_3of: 'KORAK 3/4',
+    step_4of: 'KORAK 4/4',
+    q_sector: 'Којем сектору припада ваша организација?',
+    q_size: 'Колико запослених има ваша организација?',
+    q_impact: 'Да ли би прекид ваших ICT система могао да изазове значајан утицај на јавну безбедност, националну безбедност или јавно здравље?',
+    q_cloud: 'Да ли користите cloud услуге, екстерне ICT провајдере или управљате ICT системима за друге организације?',
+    back_btn: '← Назад',
+    next_btn: 'Даље →',
+    restart_btn: 'Провери поново',
+    print_btn: '🖨️ Штампај',
+    disclaimer: 'Ова самопроцена служи само у информативне сврхе и не представља правни савет. За детаљну анализу обавеза ваше организације, консултујте се са адвокатом или лиценцираним консултантом за информациону безбедност.',
+    footer_github: 'Погледај на ГитХуб-у',
+    footer_mit: 'Ово дело је лиценцирано под <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.sr-latn" target="_blank" rel="noopener">CC BY-SA 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em">',
+    // Sector options
+    sector_energy: 'Енергетика — npr. ЕПС, NIS, електродистрибуција, топлане',
+    sector_transport: 'Саобраћај — npr. Аеродром Никола Тесла, Железнице Србије, Градски превоз',
+    sector_banking: 'Банкарство / Финансије — npr. банке, осигуравајућа друштва, берза',
+    sector_health: 'Здравство — npr. болнице, домови здравља, апотеке',
+    sector_water: 'Водоснабдевање — npr. водовод, пречистачи',
+    sector_gov: 'Државна управа — npr. министарства, градови, општине, јавне службе',
+    sector_ict: 'ICT услуге — npr. cloud провајдери, дата центри, hosting компаније',
+    sector_digital: 'Дигитална идентификација — npr. сертификациона тела, e-потпис',
+    sector_postal: 'Поштанске услуге',
+    sector_manufacturing: 'Производња (електроника, машине, возила)',
+    sector_food: 'Производња и дистрибуција хране',
+    sector_chem: 'Хемијска индустрија',
+    sector_pharma: 'Фармацеутика / Медицинска средства',
+    sector_waste: 'Управљање отпадом',
+    sector_other: 'Други сектор (није наведен)',
+    // Size options
+    size_small: 'Мало предузеће (до 50 запослених)',
+    size_medium: 'Средње предузеће (50–250 запослених)',
+    size_large: 'Велико предузеће (преко 250 запослених)',
+    // Yes/No
+    yes: 'Да',
+    no: 'Не',
+    not_sure: 'Нисам сигуран / Вероватно да',
+    // Results
+    result_priority_title: '✅ PRIORITY оператор',
+    result_priority_desc: 'Ваша организација подлеже ZIB 2025 као PRIORITY оператор (еквивалент "Essential" по NIS2 директиви).',
+    result_important_title: '⚠️ IMPORTANT оператор',
+    result_important_desc: 'Ваша организација подлеже ZIB 2025 као IMPORTANT оператор.',
+    result_maybe_title: '📋 Можда подлежете',
+    result_maybe_desc: 'На основу ваших одговора, ваша организација МОЖДА подлеже ZIB 2025. Препоручујемо консултацију са правним саветником.',
+    result_none_title: '✅ Вероватно не подлежете',
+    result_none_desc: 'На основу ваших одговора, ваша организација вероватно НЕ подлеже ZIB 2025. Препоручујемо периодичну проверу пошто се прописи могу проширити.',
+    // Checklist
+    check_register: 'Региструјте се у регистар оператора ICT система (у року од 90 дана од усвајања подзаконских аката)<br><a href="https://mit.gov.rs/tekst/sr/180/upis-u-evidenciju-operatora-ikt-sistema-od-posebnog-znacaja.php" target="_blank" style="color:var(--accent);font-size:13px">→ Портал MIT</a>',
+    check_risk: 'Израдите процену ризика за ваше ICT системе<br><a href="https://www.pravno-informacioni-sistem.rs/eli/rep/sgrs/skupstina/zakon/2025/91/5/reg" target="_blank" style="color:var(--accent);font-size:13px">→ PIS — текст ZIB 2025</a>',
+    check_act: 'Донети Акт безбедности ICT система (до априла 2027)<br><a href="https://www.ratel.rs/sr/blog-posts-view-all/model-akta-o-bezbednosti-ikt-sistema-1" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — Модел акта</a>',
+    check_measures: 'Имплементирајте 28 мера заштите (техничке, оперативне, организационе, физичке)<br><a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — Подзаконски акти</a>',
+    check_supply: 'Успоставите due diligence за ICT добављаче (укључујући cloud)<br><a href="https://www.ratel.rs/sr/strategije-studije-i-smernice-iz-oblasti-informacione-bezbednosti" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — Смернице за IKT безбедност</a>',
+    check_incident: 'Успоставите процедуру пријаве инцидената (24h за значајне инциденте)<br><a href="https://www.cert.rs/rs/prijava.html" target="_blank" style="color:var(--accent);font-size:13px">→ Национални CERT — пријава</a>',
+    check_soc: 'Успоставите SOC или ангажујте MSSP за мониторинг и реаговање<br><a href="https://www.cert.rs/rs/evidencija-certova.html" target="_blank" style="color:var(--accent);font-size:13px">→ Национални CERT — регистар посебних CERT тимова</a>',
+    check_compliance: 'Спроведите годишњу проверу усклађености (compliance check)<br><a href="https://mit.gov.rs/tekst/sr/702/sektor-za-informaciono-drustvo-i-informacionu-bezbednost.php" target="_blank" style="color:var(--accent);font-size:13px">→ MIT — контролне листе и годишњи извештај</a>',
+    check_audit: 'Осигурајте могућност инспекције од стране MIT / Office for Information Security<br><a href="https://mit.gov.rs/tekst/sr/702/sektor-za-informaciono-drustvo-i-informacionu-bezbednost.php" target="_blank" style="color:var(--accent);font-size:13px">→ MIT — Сектор за инспекцијски надзор</a>',
+    // Deadline box
+    deadline_title: '📅 Кључни рокови',
+    deadline_text: 'Закон је ступио на снагу 31.10.2025. Подзаконски акти се очекују у року од 12 месеци.<br><br>• <strong>90 дана</strong> након усвајања подзаконских аката — регистрација<br>• <strong>Април 2027</strong> — Акт безбедности ICT система<br>• <strong>Годишње</strong> — Провера усклађености',
+    // Fines box
+    fines_title: '💰 Казне',
+    fines_text_priority: 'За PRIORITY операторе: до <strong>2,000,000 RSD (~€17,000)</strong> за правна лица, до <strong>50,000 RSD (~€425)</strong> за одговорна лица + привремена забрана обављања функције.',
+    fines_text_important: 'За IMPORTANT операторе: до <strong>1,000,000 RSD (~€8,500)</strong> за правна лица, до <strong>50,000 RSD (~€425)</strong> за одговорна лица.',
+    sources_title: 'Извори',
+    result_maybe_prepare: 'Да бисте били спремни уколико закон обухвати вашу организацију, препоручујемо следеће припремне кораке:',
+    tab_tool: 'Самопроцена',
+    tab_resources: 'Ресурси',
+    tab_faq: 'ЧПП',
+    res_law_title: 'Закон и подзаконска акта',
+    res_law_pis: 'ZIB 2025 — пун текст закона',
+    res_law_ratel: 'RATEL — подзаконски акти',
+    res_law_model: 'Модел акта безбедности ICT система',
+    res_reg_title: 'Регистрација оператора',
+    res_reg_mit: 'MIT — портал за регистрацију оператора',
+    res_reg_checklist: 'MIT — контролне листе и извештаји',
+    res_sec_title: 'Мере безбедности',
+    res_sec_guidelines: 'RATEL — смернице за IKT безбедност',
+    // Data protection
+    res_dp_title: 'Заштита података о личности / GDPR',
+    res_dp_poverenik: 'Повереник за информације од јавног значаја и заштиту података о личности',
+    res_dp_law: 'Закон о заштити података о личности (ZS1/2018)',
+    res_dp_ats: 'ATS — Акредитационо тело Србије (ISO 27001 сертификација)',
+    // Incident procedure
+    res_inc_title: 'Поступак пријаве инцидента — корак по корак',
+    res_inc_intro: 'ZIB 2025 обавезује операторе да пријаве значајан инцидент најкасније 24h од сазнања. Испод је практична процедура заснована на закону и процедурама Националног CERT-а:',
+    res_inc_step1_title: '1. ДЕТЕКЦИЈА И ПРОЦЕНА (T+0h — T+1h)',
+    res_inc_step1_text: '• Утврдите да ли је инцидент стваран (не лажни аларм)<br>• Процените ниво опасности: низак | средњи | висок | веома висок<br>• Забележите: време откривања, врста инцидента, погођени ICT системи, обим штете<br>• Ако је ниво средњи или виши — обавезна пријава Националном CERT-у',
+    res_inc_step2_title: '2. ПРВА ПРИЈАВА (T+1h — T+24h)',
+    res_inc_step2_text: '• Попуните формулар на cert.rs → Пријави инцидент<br>• Изаберите категорију: IKT систем од посебног значаја<br>• Обавезни подаци: опис инцидента, последице, предузете мере, процена нивоа опасности, подаци о прекограничном дејству<br>• Ако су потребни прилози — пошаљите их на info@cert.rs са референтним бројем пријаве<br>• Уколико инцидент има елементе кривичног дела — пријавите Посебном тужилаштву за високотехнолошки криминал',
+    res_inc_step3_title: '3. ПЕРИОДИЧНИ ИЗВЕШТАЈИ (T+24h — T+72h и даље)',
+    res_inc_step3_text: '• Закон захтева периодично извештавање током трајања инцидента<br>• Ажурирајте пријаву кроз исти канал: info@cert.rs (са ID бројем пријаве)<br>• Обавезна допуна: промене у обиму, нове угрожене компоненте, нове предузете мере<br>• Ако инцидент утиче на кориснике услуга — обавестите их са мерама за ублажавање',
+    res_inc_step4_title: '4. ЗАВРШНИ ИЗВЕШТАЈ (након окончања)',
+    res_inc_step4_text: '• Поднесите завршни извештај Националном CERT-у<br>• Садржи: коначна анализа узрока, предузете корективне мере, докази о отклањању рањивости<br>• Завршни извештај служи као основ за годишњу проверу усклађености',
+    res_inc_contacts_title: '📞 Кључни контакти',
+    res_inc_forms_title: '📋 Корисни документи',
+    res_inc_note: '⚠️ Ова процедура је заснована на ZIB 2025 и процедурама Националног CERT-а. Подзаконски акти (очекују се до октобра 2026) могу унети додатне детаље.',
+    res_fines_title: 'Казне и рокови',
+    res_sectoral_title: 'Секторски прописи — класификација по ZIB 2025',
+    res_sectoral_intro: 'ZIB 2025 (члан 5) дели операторе на ПРИОРИТЕТНЕ и ВАЖНЕ у зависности од сектора. Испод су надлежни органи и постојећи прописи по секторима:',
+    res_sectoral_priority_title: '🔴 ПРИОРИТЕТНИ IKT системи (essential)',
+    res_sectoral_important_title: '🟠 ВАЖНИ IKT системи (important)',
+    res_sectoral_note: '📌 Напомена: Нови подзаконски акти по ZIB 2025 још нису донети — до тада важе постојећи (члан 57 ZIB). НБС већ има сопствене прописе о ИС стандардима за финансијске институције (5 одлука са директним PDF линковима изнад). За остале секторе специфични захтеви тек следе — кровни општи прописи (Листа делатности, мере заштите, процедуре пријаве инцидената) важе док се не замене.',
+    res_fines_title: 'Казне и рокови',
+    res_fines_summary: 'PRIORITY оператори: до 2,000,000 RSD (~€17,000) за правна лица. IMPORTANT оператори: до 1,000,000 RSD (~€8,500). Одговорна лица: до 50,000 RSD (~€425) + забрана обављања функције.',
+    res_fines_deadline: 'Регистрација: 90 дана након усвајања подзаконских аката. Акт безбедности: до априла 2027. Годишња провера усклађености.',
+    faq_q1: 'Шта је ZIB 2025?',
+    faq_q2: 'Која је разлика између Priority и Important оператора?',
+    faq_q3: 'Шта ако не испуним обавезе?',
+    faq_q4: 'Да ли морам да имам SOC?',
+    faq_q5: 'Које су кључне мере безбедности?',
+    faq_q6: 'Како да се региструјем као оператор?',
+    faq_q7: 'Када све треба да буде готово?',
+    faq_a1: 'Закон о информационој безбедности (ZIB 2025) је српски закон који транспонује EU NIS2 директиву. Ступио је на снагу 31. октобра 2025. Уводи обавезе за операторе ICT система у кључним секторима — енергетика, саобраћај, банкарство, здравство, ICT и други.',
+    faq_a2: '<strong>Priority</strong> оператори су из сектора енергетике, саобраћаја, банкарства, здравства, водоснабдевања, државне управе, ICT услуга и дигиталне идентификације. <strong>Important</strong> оператори су из поштанских услуга, производње, прехрамбене индустрије, хемијске индустрије, фармације и управљања отпадом.',
+    faq_a3: 'За PRIORITY операторе: казне до 2,000,000 RSD (~€17,000) за правна лица и до 50,000 RSD (~€425) за одговорна лица, уз могућност привремене забране обављања функције. За IMPORTANT операторе: до 1,000,000 RSD (~€8,500).',
+    faq_a4: 'Закон захтева успостављање система за мониторинг и реаговање на инциденте. То може бити интерни SOC (Security Operations Center) или екстерни MSSP (Managed Security Service Provider).',
+    faq_a5: 'ZIB 2025 прописује 28 мера заштите које покривају: управљање ризицима, политике безбедности, контролу приступа, криптографију, сигурност мреже, управљање рањивостима, безбедност људских ресурса, физичку безбедност, управљање инцидентима, континуитет пословања и безбедност ланца снабдевања.',
+    faq_a6: 'Регистрација се врши преко портала Министарства информисања и телекомуникација (MIT) у року од 90 дана од усвајања подзаконских аката.',
+    faq_a7: 'Закон је ступио на снагу 31.10.2025. Подзаконски акти се очекују у року од 12 месеци. Након њиховог усвајања: 90 дана за регистрацију, април 2027. за Акт безбедности ICT система.',
+    // FAQ Q8 — NIS2 harmonization
+    faq_q8: 'Зашто Србија хармонизује свој закон са ЕУ NIS2?',
+    faq_a8: 'Србија је од 2012. године кандидат за чланство у Европској унији и обавезна је да усклађује своје законодавство са ЕУ правним тековинама (<em>acquis communautaire</em>). Поред тога, Србија је чланица Енергетске заједнице и других међународних тела која захтевају усклађивање са ЕУ регулативом. NIS2 директива (ЕУ 2022/2555) замењује ранију NIS директиву из 2016. године. ZIB 2025 је српски еквивалент ове директиве — ступио је на снагу 31. октобра 2025. и примењује се од 1. јануара 2027.',
+   },
+  ru: {
+    badge: 'ЗАКОН ОБ ИНФОРМАЦИОННОЙ БЕЗОПАСНОСТИ',
+    title: 'Самооценка обязательств<br>по ZIB 2025 (NIS2)',
+    subtitle: 'Проверьте, подпадает ли ваша организация под новый Закон об информационной безопасности Сербии, к какой категории вы относитесь и что нужно сделать.',
+    welcome_text: 'Директива ЕС NIS2 (2022/2555) устанавливает высокий общий уровень кибербезопасности по всему ЕС. Как кандидат на вступление в ЕС, Сербия гармонизирует своё законодательство — новый Закон об информационной безопасности (ZIB 2025, Сл. гласник 91/2025) транспонирует NIS2 в сербскую правовую систему.<br><br>Этот инструмент поможет определить:<br>• Подпадает ли ваша организация под закон<br>• Вашу категорию (Priority или Important)<br>• Ваши обязательства и сроки',
+    start_btn: 'Начать оценку →',
+    take_3min: 'Занимает около 3 минут. Без регистрации.',
+    step_1of: 'ШАГ 1/4', step_2of: 'ШАГ 2/4', step_3of: 'ШАГ 3/4', step_4of: 'ШАГ 4/4',
+    q_sector: 'К какому сектору относится ваша организация?',
+    q_size: 'Сколько сотрудников в вашей организации?',
+    q_impact: 'Может ли нарушение работы ваших ICT-систем вызвать значительное влияние на общественную безопасность, национальную безопасность или общественное здоровье?',
+    q_cloud: 'Используете ли вы облачные услуги, внешних ICT-провайдеров или управляете ICT-системами для других организаций?',
+    back_btn: '← Назад', next_btn: 'Далее →', restart_btn: 'Проверить снова', print_btn: '🖨️ Печать',
+    disclaimer: 'Данная самооценка носит исключительно информационный характер и не является юридической консультацией. Для детального анализа обязательств вашей организации обратитесь к адвокату или лицензированному консультанту по информационной безопасности.',
+    footer_github: 'Смотреть на GitHub', footer_mit: 'Это произведение лицензировано под <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ru" target="_blank" rel="noopener">CC BY-SA 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em">',
+    sector_energy: 'Энергетика — напр. EPS, NIS, электродистрибуция, теплосети',
+    sector_transport: 'Транспорт — напр. аэропорт Никола Тесла, Железницы Србие',
+    sector_banking: 'Банки/Финансы — напр. банки, страховые, биржа',
+    sector_health: 'Здравоохранение — напр. больницы, поликлиники, аптеки',
+    sector_water: 'Водоснабжение — напр. водоканал, очистные',
+    sector_gov: 'Госуправление — министерства, города, муниципалитеты, госслужбы',
+    sector_ict: 'ICT-услуги — облачные провайдеры, дата-центры, хостинг',
+    sector_digital: 'Цифровая идентификация — центры сертификации, ЭП',
+    sector_postal: 'Почтовые услуги', sector_manufacturing: 'Производство (электроника, машины, транспортные средства)',
+    sector_food: 'Производство и распределение продуктов питания', sector_chem: 'Химическая промышленность',
+    sector_pharma: 'Фармацевтика / Медицинские изделия', sector_waste: 'Управление отходами',
+    sector_other: 'Другой сектор (не указан)',
+    size_small: 'Малое предприятие (до 50 сотрудников)', size_medium: 'Среднее предприятие (50–250 сотрудников)', size_large: 'Крупное предприятие (свыше 250 сотрудников)',
+    yes: 'Да', no: 'Нет', not_sure: 'Не уверен / Вероятно да',
+    result_priority_title: '✅ PRIORITY оператор',
+    result_priority_desc: 'Ваша организация подпадает под ZIB 2025 как PRIORITY оператор (эквивалент "Essential" по директиве NIS2).',
+    result_important_title: '⚠️ IMPORTANT оператор',
+    result_important_desc: 'Ваша организация подпадает под ZIB 2025 как IMPORTANT оператор.',
+    result_maybe_title: '📋 Возможно подпадаете',
+    result_maybe_desc: 'На основе ваших ответов, ваша организация ВОЗМОЖНО подпадает под ZIB 2025. Рекомендуем консультацию с юристом.',
+    result_none_title: '✅ Вероятно не подпадаете',
+    result_none_desc: 'На основе ваших ответов, ваша организация, вероятно, НЕ подпадает под ZIB 2025. Рекомендуем периодически проверять, так как регулирование может расширяться.',
+    check_register: 'Зарегистрируйтесь в реестре операторов ICT-систем (в течение 90 дней после принятия подзаконных актов)<br><a href="https://mit.gov.rs/tekst/sr/180/upis-u-evidenciju-operatora-ikt-sistema-od-posebnog-znacaja.php" target="_blank" style="color:var(--accent);font-size:13px">→ Портал MIT</a>',
+    check_risk: 'Проведите оценку рисков для ваших ICT-систем<br><a href="https://www.pravno-informacioni-sistem.rs/eli/rep/sgrs/skupstina/zakon/2025/91/5/reg" target="_blank" style="color:var(--accent);font-size:13px">→ PIS — текст ZIB 2025</a>',
+    check_act: 'Примите Акт безопасности ICT-систем (до апреля 2027)<br><a href="https://www.ratel.rs/sr/blog-posts-view-all/model-akta-o-bezbednosti-ikt-sistema-1" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — Модель акта</a>',
+    check_measures: 'Внедрите 28 мер защиты (технические, операционные, организационные, физические)<br><a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — Подзаконные акты</a>',
+    check_supply: 'Установите due diligence для ICT-поставщиков (включая облака)<br><a href="https://www.ratel.rs/sr/strategije-studije-i-smernice-iz-oblasti-informacione-bezbednosti" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — Руководство по ИКТ-безопасности</a>',
+    check_incident: 'Установите процедуру уведомления об инцидентах (24ч для значительных инцидентов)<br><a href="https://www.cert.rs/rs/prijava.html" target="_blank" style="color:var(--accent);font-size:13px">→ Национальный CERT — подача</a>',
+    check_soc: 'Создайте SOC или наймите MSSP для мониторинга и реагирования<br><a href="https://www.cert.rs/rs/evidencija-certova.html" target="_blank" style="color:var(--accent);font-size:13px">→ Национальный CERT — реестр частных CERT</a>',
+    check_compliance: 'Проводите ежегодную проверку соответствия (compliance check)<br><a href="https://mit.gov.rs/tekst/sr/702/sektor-za-informaciono-drustvo-i-informacionu-bezbednost.php" target="_blank" style="color:var(--accent);font-size:13px">→ MIT — контрольные листы и отчёт</a>',
+    check_audit: 'Обеспечьте возможность инспекции со стороны MIT / Office for Information Security<br><a href="https://mit.gov.rs/tekst/sr/702/sektor-za-informaciono-drustvo-i-informacionu-bezbednost.php" target="_blank" style="color:var(--accent);font-size:13px">→ MIT — Сектор инспекц. надзора</a>',
+    deadline_title: '📅 Ключевые сроки',
+    deadline_text: 'Закон вступил в силу 31.10.2025. Подзаконные акты ожидаются в течение 12 месяцев.<br><br>• <strong>90 дней</strong> после принятия подзаконных актов — регистрация<br>• <strong>Апрель 2027</strong> — Акт безопасности ICT-систем<br>• <strong>Ежегодно</strong> — Проверка соответствия',
+    fines_title: '💰 Штрафы',
+    fines_text_priority: 'Для PRIORITY операторов: до <strong>2,000,000 RSD (~€17,000)</strong> для юрлиц, до <strong>50,000 RSD (~€425)</strong> для должностных лиц + временный запрет на управление.',
+    fines_text_important: 'Для IMPORTANT операторов: до <strong>1,000,000 RSD (~€8,500)</strong> для юрлиц, до <strong>50,000 RSD (~€425)</strong> для должностных лиц.',
+    sources_title: 'Источники',
+    result_maybe_prepare: 'Чтобы быть готовыми, если закон будет на вас распространяться, рекомендуем предпринять следующие подготовительные шаги:',
+    tab_tool: 'Оценка',
+    tab_resources: 'Ресурсы',
+    tab_faq: 'Вопросы',
+    res_law_title: 'Закон и подзаконные акты',
+    res_law_pis: 'ZIB 2025 — полный текст закона',
+    res_law_ratel: 'RATEL — подзаконные акты',
+    res_law_model: 'Модель акта безопасности ICT-систем',
+    res_reg_title: 'Регистрация оператора',
+    res_reg_mit: 'MIT — портал регистрации операторов',
+    res_reg_checklist: 'MIT — контрольные листы и отчёты',
+    res_sec_title: 'Меры безопасности',
+    res_sec_guidelines: 'RATEL — руководства по ИКТ-безопасности',
+    // Data protection
+    res_dp_title: 'Защита персональных данных / GDPR',
+    res_dp_poverenik: 'Уполномоченный по информации общественного значения и защите персональных данных',
+    res_dp_law: 'Закон о защите персональных данных (ZS1/2018)',
+    res_dp_ats: 'ATS — Аккредитационный орган Сербии (ISO 27001 сертификация)',
+    // Incident procedure
+    res_inc_title: 'Порядок подачи уведомления об инциденте — пошагово',
+    res_inc_intro: 'ZIB 2025 обязывает операторов уведомить о значительном инциденте не позднее 24 часов с момента обнаружения. Ниже — практическая процедура на основе закона и регламентов Национального CERT:',
+    res_inc_step1_title: '1. ОБНАРУЖЕНИЕ И ОЦЕНКА (T+0ч — T+1ч)',
+    res_inc_step1_text: '• Определите, является ли инцидент реальным (не ложная тревога)<br>• Оцените уровень опасности: низкий | средний | высокий | очень высокий<br>• Зафиксируйте: время обнаружения, тип инцидента, затронутые ICT-системы, масштаб ущерба<br>• Если уровень средний или выше — обязательное уведомление Национального CERT',
+    res_inc_step2_title: '2. ПЕРВИЧНОЕ УВЕДОМЛЕНИЕ (T+1ч — T+24ч)',
+    res_inc_step2_text: '• Заполните форму на cert.rs → Пријави инцидент<br>• Выберите категорию: IKT систем од посебног значаја<br>• Обязательные данные: описание инцидента, последствия, принятые меры, оценка уровня опасности, данные о трансграничном воздействии<br>• Если нужны вложения — отправьте их на info@cert.rs с номером заявки<br>• Если в инциденте есть признаки уголовного преступления — сообщите также в Специальную прокуратуру по киберпреступности',
+    res_inc_step3_title: '3. ПЕРИОДИЧЕСКИЕ ОТЧЁТЫ (T+24ч — T+72ч и далее)',
+    res_inc_step3_text: '• Закон требует периодической отчётности на время инцидента<br>• Обновляйте уведомление через тот же канал: info@cert.rs (с ID номером)<br>• Обязательные дополнения: изменения в масштабе, новые затронутые компоненты, новые принятые меры<br>• Если инцидент влияет на пользователей услуг — уведомите их с мерами по смягчению последствий',
+    res_inc_step4_title: '4. ЗАКЛЮЧИТЕЛЬНЫЙ ОТЧЁТ (после завершения)',
+    res_inc_step4_text: '• Подайте итоговый отчёт Национальному CERT<br>• Содержит: окончательный анализ причин, принятые корректирующие меры, доказательства устранения уязвимостей<br>• Итоговый отчёт служит основой для ежегодной проверки соответствия',
+    res_inc_contacts_title: '📞 Ключевые контакты',
+    res_inc_forms_title: '📋 Полезные документы',
+    res_inc_note: '⚠️ Данная процедура основана на ZIB 2025 и регламентах Национального CERT. Подзаконные акты (ожидаются до октября 2026) могут внести дополнительные детали.',
+    res_fines_title: 'Штрафы и сроки',
+    res_sectoral_title: 'Отраслевые нормативы — классификация по ZIB 2025',
+    res_sectoral_intro: 'ZIB 2025 (статья 5) делит операторов на ПРИОРИТЕТНЫХ и ВАЖНЫХ в зависимости от сектора. Ниже указаны ответственные органы и существующие нормативы по секторам:',
+    res_sectoral_priority_title: '🔴 ПРИОРИТЕТНЫЕ IKT системы (essential)',
+    res_sectoral_important_title: '🟠 ВАЖНЫЕ IKT системы (important)',
+    res_sectoral_note: '📌 Примечание: Новые подзаконные акты по ZIB 2025 ещё не приняты — до их замены действуют существующие (статья 57 ZIB). НБС уже имеет собственные нормативы по ИБ для финансовых организаций (5 решений с прямыми PDF-ссылками выше). Для остальных секторов конкретные требования ещё последуют — общие нормативные акты (Перечень видов деятельности, меры защиты, порядок сообщения об инцидентах) остаются в силе до замены.',
+    res_fines_title: 'Штрафы и сроки',
+    res_fines_summary: 'PRIORITY: до 2,000,000 RSD (~€17,000) для юрлиц. IMPORTANT: до 1,000,000 RSD (~€8,500). Должностные лица: до 50,000 RSD (~€425) + запрет на управление.',
+    res_fines_deadline: 'Регистрация: 90 дней после принятия подзаконных актов. Акт безопасности: до апреля 2027. Ежегодная проверка.',
+    faq_q1: 'Что такое ZIB 2025?',
+    faq_q2: 'Какая разница между Priority и Important операторами?',
+    faq_q3: 'Что будет, если не соблюдать требования?',
+    faq_q4: 'Нужен ли мне SOC?',
+    faq_q5: 'Какие ключевые меры безопасности?',
+    faq_q6: 'Как зарегистрироваться как оператор?',
+    faq_q7: 'Когда всё должно быть готово?',
+    faq_a1: 'Закон об информационной безопасности (ZIB 2025) — сербский закон, транспонирующий директиву EU NIS2. Вступил в силу 31 октября 2025. Вводит обязательства для операторов ICT-систем в ключевых секторах — энергетика, транспорт, банковское дело, здравоохранение, ICT и другие.',
+    faq_a2: '<strong>Priority</strong> операторы — из сфер энергетики, транспорта, банков, здравоохранения, водоснабжения, госуправления, ICT и цифровой идентификации. <strong>Important</strong> — из почтовых услуг, производства, пищевой и химической промышленности, фармацевтики, управления отходами.',
+    faq_a3: 'Для PRIORITY: до 2,000,000 RSD (~€17,000) для юрлиц и до 50,000 RSD (~€425) для должностных лиц + возможный запрет на управление. Для IMPORTANT: до 1,000,000 RSD (~€8,500). Надзор осуществляет MIT / Office for Information Security.',
+    faq_a4: 'Закон требует создания системы мониторинга и реагирования на инциденты. Это может быть внутренний SOC или внешний MSSP.',
+    faq_a5: 'ZIB 2025 устанавливает 28 мер защиты: управление рисками, политики безопасности, контроль доступа, криптография, безопасность сетей, управление уязвимостями, безопасность персонала, физическая безопасность, управление инцидентами, непрерывность бизнеса, безопасность цепочки поставок.',
+    faq_a6: 'Регистрация через портал Министерства информации и телекоммуникаций (MIT) в течение 90 дней после принятия подзаконных актов.',
+    faq_a7: 'Закон вступил в силу 31.10.2025. Подзаконные акты — в течение 12 месяцев. После их принятия: 90 дней на регистрацию, апрель 2027 — Акт безопасности ICT-систем, ежегодные проверки соответствия.',
+    // FAQ Q8 — NIS2 harmonization
+    faq_q8: 'Почему Сербия гармонизирует свой закон с EU NIS2?',
+    faq_a8: 'Сербия является кандидатом на вступление в ЕС с 2012 года и обязана гармонизировать своё законодательство с правовыми нормами ЕС (<em>acquis communautaire</em>). Кроме того, Сербия — член Энергетического сообщества (Energy Community) и других международных организаций, требующих соответствия нормам ЕС. Директива NIS2 (EU 2022/2555) заменяет предыдущую директиву NIS от 2016 года. ZIB 2025 — сербский эквивалент этой директивы: вступил в силу 31 октября 2025 года, применяется с 1 января 2027 года.',
+  },
+  en: {
+    badge: 'INFORMATION SECURITY ACT',
+    title: 'NIS2 + ZIB 2025<br>Compliance Self-Assessment',
+    subtitle: 'Check if your organization falls under Serbia\'s new Information Security Law, which category (Priority or Important) applies, and what actions are required.',
+    welcome_text: 'The EU NIS2 Directive (2022/2555) establishes a high common level of cybersecurity across the EU. As an EU candidate country, Serbia is aligning its legislation — the new Information Security Act (ZIB 2025, Official Gazette 91/2025) transposes NIS2 into Serbian law.<br><br>This tool helps determine:<br>• Whether your organization falls in scope<br>• Your category (Priority or Important)<br>• Your compliance obligations and deadlines',
+    start_btn: 'Start Assessment →',
+    take_3min: 'Takes about 3 minutes. No registration required.',
+    step_1of: 'STEP 1/4', step_2of: 'STEP 2/4', step_3of: 'STEP 3/4', step_4of: 'STEP 4/4',
+    q_sector: 'Which sector does your organization operate in?',
+    q_size: 'How many employees does your organization have?',
+    q_impact: 'Would disruption of your ICT systems cause significant impact on public safety, national security, or public health?',
+    q_cloud: 'Do you use cloud services, external ICT providers, or manage ICT systems for other organizations?',
+    back_btn: '← Back', next_btn: 'Next →', restart_btn: 'Check again', print_btn: '🖨️ Print',
+    disclaimer: 'This self-assessment is for informational purposes only and does not constitute legal advice. For a detailed analysis of your organization\'s obligations, consult an attorney or a licensed information security consultant.',
+    footer_github: 'View on GitHub', footer_mit: 'This work is licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a> <img src="https://mirrors.creativecommons.org/presskit/icons/cc.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em"><img src="https://mirrors.creativecommons.org/presskit/icons/by.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em"><img src="https://mirrors.creativecommons.org/presskit/icons/sa.svg" alt="" style="max-width:1em;max-height:1em;margin-left:.2em">',
+    sector_energy: 'Energy — e.g. EPS, NIS, electricity distributors, heating plants',
+    sector_transport: 'Transport — e.g. Nikola Tesla Airport, Serbian Railways',
+    sector_banking: 'Banking / Finance — e.g. banks, insurance, stock exchange',
+    sector_health: 'Healthcare — e.g. hospitals, clinics, pharmacies',
+    sector_water: 'Water supply — e.g. waterworks, treatment plants',
+    sector_gov: 'Government — ministries, cities, municipalities, public services',
+    sector_ict: 'ICT services — cloud providers, data centers, hosting companies',
+    sector_digital: 'Digital ID — certification authorities, e-signature providers',
+    sector_postal: 'Postal services', sector_manufacturing: 'Manufacturing (electronics, machinery, vehicles)',
+    sector_food: 'Food production and distribution', sector_chem: 'Chemical industry',
+    sector_pharma: 'Pharmaceuticals / Medical devices', sector_waste: 'Waste management',
+    sector_other: 'Other sector (not listed)',
+    size_small: 'Small (up to 50 employees)', size_medium: 'Medium (50–250 employees)', size_large: 'Large (over 250 employees)',
+    yes: 'Yes', no: 'No', not_sure: 'Not sure / Probably yes',
+    result_priority_title: '✅ PRIORITY operator',
+    result_priority_desc: 'Your organization is subject to ZIB 2025 as a PRIORITY operator (equivalent to "Essential" under the NIS2 Directive).',
+    result_important_title: '⚠️ IMPORTANT operator',
+    result_important_desc: 'Your organization is subject to ZIB 2025 as an IMPORTANT operator.',
+    result_maybe_title: '📋 Possibly in scope',
+    result_maybe_desc: 'Based on your answers, your organization MAY be subject to ZIB 2025. We recommend consulting a legal advisor.',
+    result_none_title: '✅ Likely not in scope',
+    result_none_desc: 'Based on your answers, your organization is likely NOT subject to ZIB 2025. We recommend periodic review as regulations may expand.',
+    check_register: 'Register in the ICT system operator registry (within 90 days of bylaw adoption)<br><a href="https://mit.gov.rs/tekst/sr/180/upis-u-evidenciju-operatora-ikt-sistema-od-posebnog-znacaja.php" target="_blank" style="color:var(--accent);font-size:13px">→ MIT registration portal</a>',
+    check_risk: 'Conduct a risk assessment for your ICT systems<br><a href="https://www.pravno-informacioni-sistem.rs/eli/rep/sgrs/skupstina/zakon/2025/91/5/reg" target="_blank" style="color:var(--accent);font-size:13px">→ PIS — ZIB 2025 full text</a>',
+    check_act: 'Adopt an ICT System Security Act (by April 2027)<br><a href="https://www.ratel.rs/sr/blog-posts-view-all/model-akta-o-bezbednosti-ikt-sistema-1" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — Model Act</a>',
+    check_measures: 'Implement 28 security measures (technical, operational, organizational, physical)<br><a href="https://www.ratel.rs/sr/podzakonski-akti-informaciona-bezbednost" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — By-laws</a>',
+    check_supply: 'Establish due diligence for ICT suppliers (including cloud)<br><a href="https://www.ratel.rs/sr/strategije-studije-i-smernice-iz-oblasti-informacione-bezbednosti" target="_blank" style="color:var(--accent);font-size:13px">→ RATEL — ICT security guidelines</a>',
+    check_incident: 'Establish incident notification procedure (24h for significant incidents)<br><a href="https://www.cert.rs/rs/prijava.html" target="_blank" style="color:var(--accent);font-size:13px">→ National CERT — report incident</a>',
+    check_soc: 'Set up a SOC or engage an MSSP for monitoring and response<br><a href="https://www.cert.rs/rs/evidencija-certova.html" target="_blank" style="color:var(--accent);font-size:13px">→ National CERT — special CERT registry</a>',
+    check_compliance: 'Conduct annual compliance checks<br><a href="https://mit.gov.rs/tekst/sr/702/sektor-za-informaciono-drustvo-i-informacionu-bezbednost.php" target="_blank" style="color:var(--accent);font-size:13px">→ MIT — checklists & annual report</a>',
+    check_audit: 'Ensure inspectability by MIT / Office for Information Security<br><a href="https://mit.gov.rs/tekst/sr/702/sektor-za-informaciono-drustvo-i-informacionu-bezbednost.php" target="_blank" style="color:var(--accent);font-size:13px">→ MIT — Inspection sector</a>',
+    deadline_title: '📅 Key Deadlines',
+    deadline_text: 'The law entered into force on 31.10.2025. Implementing bylaws are expected within 12 months.<br><br>• <strong>90 days</strong> after bylaw adoption — registration<br>• <strong>April 2027</strong> — ICT System Security Act<br>• <strong>Annual</strong> — Compliance checks',
+    fines_title: '💰 Penalties',
+    fines_text_priority: 'For PRIORITY operators: up to <strong>2,000,000 RSD (~€17,000)</strong> for legal entities, up to <strong>50,000 RSD (~€425)</strong> for responsible individuals + temporary prohibition of management functions.',
+    fines_text_important: 'For IMPORTANT operators: up to <strong>1,000,000 RSD (~€8,500)</strong> for legal entities, up to <strong>50,000 RSD (~€425)</strong> for responsible individuals.',
+    sources_title: 'Sources',
+    result_maybe_prepare: 'To be prepared in case the law applies to your organization, we recommend the following preparatory steps:',
+    tab_tool: 'Assessment',
+    tab_resources: 'Resources',
+    tab_faq: 'FAQ',
+    res_law_title: 'Law & Regulations',
+    res_law_pis: 'ZIB 2025 — full text of the law',
+    res_law_ratel: 'RATEL — implementing by-laws',
+    res_law_model: 'Model ICT Security Act',
+    res_reg_title: 'Operator Registration',
+    res_reg_mit: 'MIT — operator registration portal',
+    res_reg_checklist: 'MIT — checklists & annual reports',
+    res_sec_title: 'Security Measures',
+    res_sec_guidelines: 'RATEL — ICT security guidelines',
+    // Data protection
+    res_dp_title: 'Personal Data Protection / GDPR',
+    res_dp_poverenik: 'Commissioner for Information of Public Importance and Personal Data Protection',
+    res_dp_law: 'Law on Personal Data Protection (ZS1/2018)',
+    res_dp_ats: 'ATS — Accreditation Body of Serbia (ISO 27001 certification)',
+    // Incident procedure
+    res_inc_title: 'Incident Reporting Procedure — Step by Step',
+    res_inc_intro: 'ZIB 2025 requires operators to report a significant incident within 24 hours of discovery. Below is a practical procedure based on the law and National CERT procedures:',
+    res_inc_step1_title: '1. DETECTION & ASSESSMENT (T+0h — T+1h)',
+    res_inc_step1_text: '• Verify the incident is real (not a false alarm)<br>• Assess danger level: low | medium | high | very high<br>• Record: discovery time, incident type, affected ICT systems, damage scope<br>• If level is medium or higher — mandatory report to National CERT',
+    res_inc_step2_title: '2. INITIAL REPORT (T+1h — T+24h)',
+    res_inc_step2_text: '• Fill the form at cert.rs → Prijavi incident<br>• Select category: IKT sistem od posebnog značaja<br>• Required data: incident description, consequences, measures taken, danger level, cross-border impact info<br>• If attachments needed — send them to info@cert.rs with reference number<br>• If incident involves criminal elements — also report to the Special Prosecutor\'s Office for High-Tech Crime',
+    res_inc_step3_title: '3. PERIODIC UPDATES (T+24h — T+72h and beyond)',
+    res_inc_step3_text: '• Law requires periodic reporting during the incident<br>• Update through the same channel: info@cert.rs (with report ID)<br>• Mandatory updates: scope changes, newly affected components, new measures taken<br>• If incident affects service users — notify them with mitigation measures',
+    res_inc_step4_title: '4. FINAL REPORT (after resolution)',
+    res_inc_step4_text: '• Submit final report to National CERT<br>• Contains: root cause analysis, corrective actions taken, evidence of vulnerability remediation<br>• Final report serves as basis for annual compliance review',
+    res_inc_contacts_title: '📞 Key Contacts',
+    res_inc_forms_title: '📋 Useful Documents',
+    res_inc_note: '⚠️ This procedure is based on ZIB 2025 and National CERT procedures. Implementing bylaws (expected by October 2026) may introduce additional details.',
+    res_fines_title: 'Penalties & Deadlines',
+    res_sectoral_title: 'Sectoral Regulations — ZIB 2025 Classification',
+    res_sectoral_intro: 'ZIB 2025 (Article 5) classifies operators as PRIORITY or IMPORTANT based on their sector. Below are the responsible authorities and existing regulations per sector:',
+    res_sectoral_priority_title: '🔴 PRIORITY ICT systems (essential)',
+    res_sectoral_important_title: '🟠 IMPORTANT ICT systems (important)',
+    res_sectoral_note: '📌 Note: New ZIB 2025 bylaws have not yet been adopted — existing regulations remain in effect until replaced (Art. 57 ZIB). NBS already has its own IS standards for financial institutions (5 decisions with direct PDF links above). For other sectors, specific requirements are forthcoming — the overarching general regulations (List of Activities, Security Measures, Incident Reporting Procedure) remain valid until replaced.',
+    res_fines_title: 'Penalties & Deadlines',
+    res_fines_summary: 'PRIORITY operators: up to 2,000,000 RSD (~€17,000) for legal entities. IMPORTANT operators: up to 1,000,000 RSD (~€8,500). Officials: up to 50,000 RSD (~€425) + potential management ban.',
+    res_fines_deadline: 'Registration: 90 days after bylaw adoption. ICT Security Act: by April 2027. Annual compliance checks.',
+    faq_q1: 'What is ZIB 2025?',
+    faq_q2: 'What is the difference between Priority and Important operators?',
+    faq_q3: 'What happens if I don\'t comply?',
+    faq_q4: 'Do I need a SOC?',
+    faq_q5: 'What are the key security measures?',
+    faq_q6: 'How do I register as an operator?',
+    faq_q7: 'What are the key deadlines?',
+    faq_a1: 'The Information Security Act (ZIB 2025) is Serbia\'s law transposing the EU NIS2 Directive. It entered into force on October 31, 2025, introducing obligations for ICT system operators in key sectors: energy, transport, banking, healthcare, ICT, and others.',
+    faq_a2: '<strong>Priority</strong> operators come from energy, transport, banking, healthcare, water supply, government, ICT services, and digital identity sectors. <strong>Important</strong> operators come from postal services, manufacturing, food industry, chemicals, pharmaceuticals, and waste management.',
+    faq_a3: 'For PRIORITY operators: fines up to 2,000,000 RSD (~€17,000) for legal entities and up to 50,000 RSD (~€425) for officials, plus potential management ban. For IMPORTANT operators: up to 1,000,000 RSD (~€8,500).',
+    faq_a4: 'The law requires an incident monitoring and response system. This can be an in-house SOC or an external MSSP, depending on your organization\'s size and complexity.',
+    faq_a5: 'ZIB 2025 mandates 28 security measures covering: risk management, security policies, access control, cryptography, network security, vulnerability management, HR security, physical security, incident management, business continuity, and supply chain security.',
+    faq_a6: 'Registration is done via the Ministry of Information and Telecommunications (MIT) portal within 90 days of bylaw adoption.',
+    faq_a7: 'The law entered into force on October 31, 2025. Bylaws expected within 12 months. After adoption: 90 days to register, April 2027 for ICT Security Act, annual compliance checks.',
+    // FAQ Q8 — NIS2 harmonization
+    faq_q8: 'Why is Serbia harmonizing its law with EU NIS2?',
+    faq_a8: 'Serbia has been an EU candidate country since 2012 and is obliged to align its legislation with the EU <em>acquis communautaire</em>. Additionally, Serbia is a member of the Energy Community and other international bodies requiring alignment with EU regulations. The NIS2 Directive (EU 2022/2555) replaces the earlier NIS Directive from 2016, introducing broader sector scope, mandatory risk management, 24-hour incident reporting, and higher penalties. ZIB 2025 is Serbia\'s equivalent — entered into force on October 31, 2025, and applies from January 1, 2027.',
+  },
+};
+const SECTORS_PRIORITY = ['energy','transport','banking','health','water','gov','ict','digital'];
+const SECTORS_IMPORTANT = ['postal','manufacturing','food','chem','pharma','waste'];
+const SECTOR_LABELS = ['energy','transport','banking','health','water','gov','ict','digital','postal','manufacturing','food','chem','pharma','waste','other'];
+
+const QUESTIONS = {
+  sector: { type: 'sector', key: 'sector' },
+  size: { type: 'size', key: 'size' },
+  impact: { type: 'choice', key: 'impact', options: ['yes','not_sure','no'] },
+  cloud: { type: 'choice', key: 'cloud', options: ['yes','not_sure','no'] }
+};
+
+// ============================================================
+// App State
+// ============================================================
+let state = {
+  lang: 'sr',
+  step: 0,
+  answers: {}
+};
+
+function t(key) {
+  let val = LANG[state.lang]?.[key];
+  if (!val && state.lang === 'sr-c') val = LANG.sr[key];
+  if (!val) val = key;
+  return val;
+}
+
+// Replace all [data-i18n] elements with current language
+function applyI18n() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    const val = t(key);
+    if (val) {
+      if (el.tagName === 'A' || el.tagName === 'BUTTON') {
+        el.textContent = val.replace(/<br\s*\/?>/gi, ' ');
+      } else {
+        el.innerHTML = val;
+      }
+    }
+  });
+}
+
+// ============================================================
+// Render functions
+// ============================================================
+function renderSectorOptions() {
+  const el = document.getElementById('q-sector');
+  el.innerHTML = '';
+  SECTOR_LABELS.forEach(s => {
+    const label = document.createElement('label');
+    label.className = 'option' + (state.answers.sector === s ? ' selected' : '');
+    const key = 'sector_' + s;
+    label.innerHTML = `<input type="radio" name="sector" value="${s}" ${state.answers.sector === s ? 'checked' : ''}>
+      <span>${t(key)}</span>`;
+    label.addEventListener('click', () => {
+      state.answers.sector = s;
+      renderAll();
+      document.getElementById('step-next').disabled = false;
+    });
+    el.appendChild(label);
+  });
+}
+
+function renderSizeOptions() {
+  const el = document.getElementById('q-size');
+  el.innerHTML = '';
+  ['small','medium','large'].forEach(s => {
+    const label = document.createElement('label');
+    label.className = 'option' + (state.answers.size === s ? ' selected' : '');
+    label.innerHTML = `<input type="radio" name="size" value="${s}" ${state.answers.size === s ? 'checked' : ''}>
+      <span>${t('size_' + s)}</span>`;
+    label.addEventListener('click', () => {
+      state.answers.size = s;
+      renderAll();
+      document.getElementById('step-next').disabled = false;
+    });
+    el.appendChild(label);
+  });
+}
+
+function renderChoiceOptions(questionId, optKeys) {
+  const el = document.getElementById('q-' + questionId);
+  el.innerHTML = '';
+  optKeys.forEach(k => {
+    const label = document.createElement('label');
+    label.className = 'option' + (state.answers[questionId] === k ? ' selected' : '');
+    label.innerHTML = `<input type="radio" name="${questionId}" value="${k}" ${state.answers[questionId] === k ? 'checked' : ''}>
+      <span>${t(k)}</span>`;
+    label.addEventListener('click', () => {
+      state.answers[questionId] = k;
+      renderAll();
+      document.getElementById('step-next').disabled = false;
+    });
+    el.appendChild(label);
+  });
+}
+
+// ============================================================
+// Classification
+// ============================================================
+function classify() {
+  const a = state.answers;
+  if (!a.sector || !a.size) return null;
+
+  // Determine base category from sector
+  let baseCat = null;
+  if (SECTORS_PRIORITY.includes(a.sector)) baseCat = 'priority';
+  else if (SECTORS_IMPORTANT.includes(a.sector)) baseCat = 'important';
+
+  // "Other" sector — needs impact + cloud to determine
+  if (a.sector === 'other') {
+    if (a.impact === 'yes' || a.impact === 'not_sure') return 'maybe';
+    if (a.cloud === 'yes' || a.cloud === 'not_sure') return 'maybe';
+    return 'none';
+  }
+
+  // For known sectors, size matters for SMEs
+  if (baseCat) {
+    // Even small companies in priority sectors likely qualify
+    // Medium and large definitely
+    if (a.size === 'small' && a.sector === 'other') return 'none';
+    return baseCat;
+  }
+
+  return 'none';
+}
+
+// ============================================================
+// Result rendering
+// ============================================================
+function renderResult() {
+  const cat = classify();
+  const el = document.getElementById('result-content');
+  if (!cat) { el.innerHTML = ''; return; }
+
+  let html = '';
+  const t_ = t;
+
+  // Icon & badge
+  if (cat === 'priority') {
+    html += `<div class="result-icon">🛡️</div>`;
+    html += `<div style="text-align:center"><span class="result-badge priority">${t_('result_priority_title')}</span></div>`;
+    html += `<p style="text-align:center;color:var(--text-dim);line-height:1.5">${t_('result_priority_desc')}</p>`;
+  } else if (cat === 'important') {
+    html += `<div class="result-icon">⚠️</div>`;
+    html += `<div style="text-align:center"><span class="result-badge important">${t_('result_important_title')}</span></div>`;
+    html += `<p style="text-align:center;color:var(--text-dim);line-height:1.5">${t_('result_important_desc')}</p>`;
+  } else if (cat === 'maybe') {
+    html += `<div class="result-icon">📋</div>`;
+    html += `<div style="text-align:center"><span class="result-badge important">${t_('result_maybe_title')}</span></div>`;
+    html += `<p style="text-align:center;color:var(--text-dim);line-height:1.5">${t_('result_maybe_desc')}</p>`;
+  } else {
+    html += `<div class="result-icon">✅</div>`;
+    html += `<div style="text-align:center"><span class="result-badge none">${t_('result_none_title')}</span></div>`;
+    html += `<p style="text-align:center;color:var(--text-dim);line-height:1.5">${t_('result_none_desc')}</p>`;
+  }
+
+  // Checklist (only for priority, important, maybe)
+  if (cat === 'priority' || cat === 'important' || cat === 'maybe') {
+    if (cat === 'maybe') {
+      html += `<p style="text-align:center;color:var(--text-dim);margin:20px 0 12px;line-height:1.5;font-size:14px">${t_('result_maybe_prepare')}</p>`;
+    }
+    html += `<div class="checklist">`;
+    const items = ['register','risk','act','measures','supply','incident','soc','compliance','audit'];
+    items.forEach(i => {
+      html += `<div class="checklist-item"><span class="icon">📌</span>${t_('check_' + i)}</div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Deadline box (only for priority and important)
+  if (cat === 'priority' || cat === 'important') {
+    html += `<div class="deadline-box">
+    <strong>${t_('deadline_title')}</strong><br><br>
+    ${t_('deadline_text')}
+  </div>`;
+  }
+
+  // Fines box (only for priority and important)
+  if (cat === 'priority' || cat === 'important') {
+    html += `<div class="deadline-box" style="background:rgba(255,68,68,0.08);border-color:rgba(255,68,68,0.2);margin-top:12px">
+    <strong>${t_('fines_title')}</strong><br><br>
+    ${cat === 'priority' ? t_('fines_text_priority') : t_('fines_text_important')}
+  </div>`;
+  }
+
+  // Sources
+  html += `<div class="deadline-box" style="background:rgba(0,100,200,0.06);border-color:rgba(0,100,200,0.15);margin-top:12px;font-size:13px">
+    <strong>📚 ${t_('sources_title')}</strong><br><br>
+    <div style="line-height:1.8">
+      • <a href="https://bdkadvokati.com/new-cybersecurity-law-enters-into-force-in-serbia" target="_blank" style="color:var(--accent)">BDK Advokati — ZIB 2025 analysis</a><br>
+      • <a href="https://www.karanovicpartners.com/news/from-nis2-to-serbia-how-the-new-information-security-law-impacts-your-business/" target="_blank" style="color:var(--accent)">Karanovic & Partners — NIS2 to Serbia</a><br>
+      • <a href="https://cert.rs" target="_blank" style="color:var(--accent)">SRB-CERT / RATEL — cert.rs</a><br>
+      • <a href="https://www.ite.gov.rs" target="_blank" style="color:var(--accent)">Office for IT and eGovernment — ite.gov.rs</a><br>
+      • <a href="https://www.paragraf.rs/propisi/zakon-o-informacionoj-bezbednosti-2025.html" target="_blank" style="color:var(--accent)">ZIB 2025 — Službeni glasnik RS</a>
+    </div>
+  </div>`;
+
+  el.innerHTML = html;
+}
+
+// ============================================================
+// Navigation
+// ============================================================
+function goStep(n) {
+  // If n is 5 (after questions), treat as 'result'
+  state.step = n === 5 ? 'result' : n;
+  renderAll();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderAll() {
+  // Apply i18n to static elements
+  applyI18n();
+  const s = state.step;
+
+  // Steps visibility
+  document.querySelectorAll('.card.step').forEach(el => {
+    el.classList.toggle('active', el.dataset.step == s);
+  });
+
+  // Progress dots
+  const currentStepNum = typeof s === 'string' ? 5 : s;
+  const totalSteps = 5;
+  const bar = document.getElementById('progress-bar');
+  bar.innerHTML = '';
+  for (let i = 0; i < totalSteps; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'progress-dot';
+    if (i + 1 === currentStepNum) dot.classList.add('active');
+    else if (i + 1 < currentStepNum) dot.classList.add('done');
+    // For result page, mark all done
+    if (s === 'result') { dot.className = 'progress-dot done'; }
+    bar.appendChild(dot);
+  }
+
+  // Render current step content
+  if (s === 1) renderSectorOptions();
+  if (s === 2) renderSizeOptions();
+  if (s === 3) renderChoiceOptions('impact', ['yes','not_sure','no']);
+  if (s === 4) renderChoiceOptions('cloud', ['yes','not_sure','no']);
+  if (s === 'result' || s === 5) {
+    renderResult();
+    return;
+  }
+
+  // Add nav buttons to active step (skip step 0 — welcome has its own button)
+  if (s === 0) return;
+  const activeCard = document.querySelector(`.card.step[data-step="${s}"]`);
+  if (!activeCard) return;
+  let navHtml = `<div class="btn-row">`;
+  if (s > 0 && s < 5) {
+    navHtml += `<button class="btn btn-secondary" onclick="goStep(${s - 1})">${t('back_btn')}</button>`;
+  }
+  if (s < 4) {
+    const disabled = (s === 1 && !state.answers.sector) || (s === 2 && !state.answers.size) ||
+                     (s === 3 && !state.answers.impact) || (s === 4 && !state.answers.cloud);
+    navHtml += `<button class="btn btn-primary" id="step-next" onclick="goStep(${s + 1})" ${disabled ? 'disabled' : ''}>${t('next_btn')}</button>`;
+  } else if (s === 4) {
+    const disabled = !state.answers.cloud;
+    navHtml += `<button class="btn btn-primary" id="step-next" onclick="goStep(5)" ${disabled ? 'disabled' : ''}>${t('next_btn')}</button>`;
+  }
+  navHtml += `</div>`;
+
+  // Remove old nav and append
+  const oldNav = activeCard.querySelector('.btn-row');
+  if (oldNav) oldNav.remove();
+  activeCard.insertAdjacentHTML('beforeend', navHtml);
+}
+
+function resetQuiz() {
+  state.answers = {};
+  state.step = 0;
+  renderAll();
+}
+
+// ============================================================
+// Language switching
+// ============================================================
+function setLang(l) {
+  state.lang = l;
+  document.querySelectorAll('.lang-btn').forEach(el => {
+    el.classList.toggle('active', el.dataset.lang === l);
+  });
+  document.documentElement.lang = l === 'sr-c' ? 'sr' : l;
+  renderAll();
+  
+  // Determine if ?lang= is the source of truth
+  const hasLangParam = new URLSearchParams(window.location.search).has('lang');
+  
+  // Extract current section from hash
+  const curHash = window.location.hash.replace('#', '');
+  const parts = curHash.split('/');
+  const section = parts.length > 1 ? parts.slice(1).join('/') : (SECTION_TABS[curHash] ? curHash : '');
+  
+  if (hasLangParam) {
+    // ?lang= is present — only set hash for section, not language
+    if (section) {
+      window.location.hash = section;
+    } else {
+      // Clean up: remove hash entirely if no section
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+  } else {
+    // No ?lang= — use hash for both language and section (backward compat)
+    window.location.hash = section ? l + '/' + section : l;
+  }
+  // Re-add anchor icons (applyI18n in renderAll strips them)
+  setTimeout(addAnchorIcons, 10);
+}
+
+// ============================================================
+// Tab switching
+// ============================================================
+function setTab(t) {
+  document.querySelectorAll('.tab-btn').forEach(el => {
+    el.classList.toggle('active', el.dataset.tab === t);
+  });
+  document.querySelectorAll('.tab-content').forEach(el => {
+    el.classList.toggle('hidden', el.id !== 'tab-' + t);
+  });
+  if (t === 'tool') {
+    renderAll();
+  }
+  // Re-add anchor icons — switching tabs can strip them
+  setTimeout(addAnchorIcons, 10);
+}
+
+// ============================================================
+// Section anchors — go to tab + scroll
+// ============================================================
+const SECTION_TABS = {
+  'res-law':'resources', 'res-reg':'resources', 'res-sec':'resources',
+  'res-sectoral':'resources', 'res-inc':'resources', 'res-fines':'resources',
+  'res-opsti-akti':'resources',
+};
+function goToSection(id) {
+  const tab = SECTION_TABS[id];
+  if (tab) setTab(tab);
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+// ============================================================
+// Anchor link icons — 🔗 next to every heading with an ID
+// ============================================================
+function addAnchorIcons() {
+  // Find headings inside sections that have an ID on the section wrapper
+  document.querySelectorAll('[id^="res-"] h3, [id^="res-"] h4, .faq-item h4').forEach(h => {
+    if (h.querySelector('.anchor-link')) return;
+    const section = h.closest('[id]');
+    const sectionId = section ? section.id : '';
+    if (!sectionId) return;
+    const a = document.createElement('a');
+    a.className = 'anchor-link';
+    a.href = '#' + sectionId;
+    a.textContent = '🔗';
+    a.title = 'Copy link to this section';
+    a.style.cssText = 'opacity:0.3;margin-left:8px;font-size:0.8em;text-decoration:none;cursor:pointer;transition:opacity 0.2s';
+    a.onmouseenter = () => a.style.opacity = '1';
+    a.onmouseleave = () => a.style.opacity = '0.3';
+    a.onclick = (e) => {
+      e.preventDefault();
+      // Copy full URL with anchor to clipboard — preserve language
+      const hasLangParam = new URLSearchParams(window.location.search).has('lang');
+      let url;
+      if (hasLangParam) {
+        // ?lang=xx is the source of truth
+        url = window.location.origin + window.location.pathname + window.location.search + '#' + sectionId;
+      } else {
+        // Language is in hash: #lang/sectionId
+        url = window.location.origin + window.location.pathname + '#' + state.lang + '/' + sectionId;
+      }
+      navigator.clipboard.writeText(url).catch(() => {});
+      a.textContent = '✓';
+      a.style.color = '#44aa44';
+      setTimeout(() => { a.textContent = '🔗'; a.style.color = ''; }, 1500);
+    };
+    h.appendChild(a);
+  });
+}
+
+// ============================================================
+// FAQ toggle
+// ============================================================
+function toggleFaq(el) {
+  el.classList.toggle('open');
+  const answer = el.nextElementSibling;
+  if (answer) {
+    answer.classList.toggle('open');
+  }
+}
+
+// ============================================================
+// Init
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  // Check URL for language: ?lang=xx (sitemap-friendly) or #xx (user-friendly)
+  const params = new URLSearchParams(window.location.search);
+  const langParam = params.get('lang');
+  const tabParam = params.get('tab');
+  const hash = window.location.hash.replace('#', '');
+  
+  // Tab query param mapping (for Yandex/SEO)
+  const TAB_QUERY_MAP = {
+    'assessment':'tool', 'self-assessment':'tool', 'samoprocena':'tool',
+    'resources':'resources', 'resursi':'resources', 'resurs':'resources',
+    'faq':'faq',
+  };
+  
+  // Parse compound hash: #lang/section or just #section or just #lang
+  const hashParts = hash.split('/');
+  const hashLang = hashParts[0];
+  const hashSection = hashParts.length > 1 ? hashParts.slice(1).join('/') : 
+                       (hashLang && !['sr','sr-c','ru','en'].includes(hashLang) ? hashLang : '');
+  const hashLangOnly = ['sr','sr-c','ru','en'].includes(hashLang) ? hashLang : null;
+  
+  const initialLang = langParam || hashLangOnly || null;
+  if (initialLang) {
+    setLang(initialLang);
+  } else {
+    applyI18n();
+    renderAll();
+    setTimeout(addAnchorIcons, 10);
+  }
+  
+  // If there's a tab query param, switch to it
+  const initialTab = TAB_QUERY_MAP[tabParam] || null;
+  if (initialTab) {
+    // setTab after short delay so renderAll from setLang settles
+    setTimeout(() => setTab(initialTab), 10);
+  }
+  
+  // If there's a section anchor, jump to it after render
+  const targetSection = hashSection || (SECTION_TABS[hash] ? hash : '');
+  if (targetSection) {
+    setTimeout(() => goToSection(targetSection), 100);
+  }
+  
+  // Add anchor link icons to all section headings
+  addAnchorIcons();
+
+  // Listen for hash/query changes (back/forward navigation)
+  window.addEventListener('hashchange', () => {
+    const h = window.location.hash.replace('#', '');
+    if (!h) return;
+    const parts = h.split('/');
+    const first = parts[0];
+    const rest = parts.length > 1 ? parts.slice(1).join('/') : '';
+    
+    // If ?lang= is active, hash is just a section — scroll to it
+    if (new URLSearchParams(window.location.search).has('lang')) {
+      if (SECTION_TABS[first]) goToSection(first);
+      return;
+    }
+    
+    // No ?lang= — hash can be #lang or #lang/section or #section
+    if (['sr','sr-c','ru','en'].includes(first)) {
+      if (rest && SECTION_TABS[rest]) {
+        setLang(first);
+        setTimeout(() => goToSection(rest), 50);
+      } else {
+        setLang(first);
+      }
+    } else if (SECTION_TABS[first]) {
+      goToSection(first);
+    }
+  });
+
+  // GitHub stars — set your repo below or leave empty to auto-detect
+  // Stars badge in footer
+  const repo = ''; // e.g. 'username/nis2-rs' — set before going live
+  if (repo) {
+    fetch('https://api.github.com/repos/' + repo)
+      .then(r => r.json())
+      .then(d => {
+        if (d.stargazers_count !== undefined) {
+          document.getElementById('stars-badge').textContent = '⭐ ' + d.stargazers_count;
+        }
+      })
+      .catch(() => {});
+  }
+});
+</script>
+
+</body>
+</html>
